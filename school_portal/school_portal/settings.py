@@ -109,3 +109,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # مسار ملفات static العادية (CSS, JS, صور)
 STATIC_URL = '/static/'
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ta3lemi-fi-yadi.onrender.com', '.onrender.com']
