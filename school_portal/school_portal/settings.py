@@ -103,3 +103,9 @@ EMAIL_HOST_PASSWORD = 'lldj gobi dorn zfhr'  # كلمة مرور التطبيق 
 DEFAULT_FROM_EMAIL = 'تعلمي في يدي <taalomifiyadi@gmail.com>'
 
 AUTH_USER_MODEL = 'core.User'
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# مسار ملفات static العادية (CSS, JS, صور)
+STATIC_URL = '/static/'
