@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %}
+<div dir="rtl" lang="ar">
+    <h2>الدرجات</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>اسم الطالب</th>
+                <th>المادة</th>
+                <th>الدرجة</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in grades %}
+            <tr>
+                <td>{{ grade.student.user.get_full_name }}</td>
+                <td>{{ grade.exam.subject.name }}</td>
+                <td>{{ grade.score }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">لا توجد درجات مسجلة</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'academics:index' %}">العودة للرئيسية</a>
+</div>
+{% endblock %}

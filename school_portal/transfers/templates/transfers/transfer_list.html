@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4" dir="rtl" lang="ar">
+    <h2 class="mb-4 text-primary fw-bold">📋 قائمة الانتقالات</h2>
+
+    {% if transfers %}
+    <div class="list-group">
+        {% for transfer in transfers %}
+        <div class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded-3">
+            <div>
+                <strong>الطالب:</strong> {{ transfer.student.user.get_full_name }}<br>
+                <strong>من:</strong> {{ transfer.from_grade.name }} | <strong>إلى:</strong> {{ transfer.to_grade.name }}<br>
+                <strong>السبب:</strong> {{ transfer.reason }}
+            </div>
+            <span class="badge 
+                {% if transfer.status == 'موافق' %}bg-success
+                {% elif transfer.status == 'قيد الانتظار' %}bg-warning
+                {% else %}bg-danger
+                {% endif %} rounded-pill">
+                {{ transfer.status }}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info rounded-3">
+        لا يوجد انتقالات مسجلة
+    </div>
+    {% endif %}
+
+    <a href="{% url 'academics:index' %}" class="btn btn-secondary mt-4 rounded-pill">العودة للرئيسية</a>
+</div>
+{% endblock %}

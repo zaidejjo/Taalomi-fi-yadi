@@ -1,0 +1,17 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Cairo', sans-serif;
+}
+
+.navbar-brand span {
+    font-size: 1.4rem;
+    color: #fff;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}

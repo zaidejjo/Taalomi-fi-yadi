@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div dir="rtl" lang="ar" class="container py-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
+            <h2 class="mb-0 fw-bold">مرحبًا بك في صفحة الأكاديميات</h2>
+        </div>
+        <div class="card-body bg-light text-center">
+            <p class="fs-5 mb-4">اختر القسم الذي تريد الدخول إليه:</p>
+            <div class="list-group mx-auto" style="max-width: 350px;">
+                <a href="{% url 'academics:subjects' %}" class="list-group-item list-group-item-action rounded-3 my-2 shadow-sm fw-semibold">
+                    📘 المواد الدراسية
+                </a>
+                <a href="{% url 'academics:grades' %}" class="list-group-item list-group-item-action rounded-3 my-2 shadow-sm fw-semibold">
+                    🏅 الدرجات
+                </a>
+                <a href="{% url 'academics:exams' %}" class="list-group-item list-group-item-action rounded-3 my-2 shadow-sm fw-semibold">
+                    ✏️ الامتحانات
+                </a>
+                <a href="{% url 'academics:timetable' %}" class="list-group-item list-group-item-action rounded-3 my-2 shadow-sm fw-semibold">
+                    📅 الجدول الدراسي
+                </a>
+            </div>
+        </div>
+        <div class="card-footer text-muted text-center py-2">
+            <small>تعليمي في يدي © 2025</small>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}الجدول الدراسي{% endblock %}
+{% block content %}
+<div class="container py-5" dir="rtl" lang="ar">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-primary">🗓️ الجدول الدراسي</h2>
+        <p class="text-muted">اختر الصف لمشاهدة جدول حصصه.</p>
+    </div>
+
+    <form method="get" class="mb-4 text-center">
+        <label for="class" class="form-label fw-bold">اختر الصف:</label>
+        <select name="class" id="class" class="form-select d-inline-block w-auto" onchange="this.form.submit()">
+            {% for class_name in timetables.keys %}
+            <option value="{{ class_name }}" {% if class_name == selected_class %}selected{% endif %}>
+                {{ class_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <table class="table table-bordered table-striped text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>اليوم</th>
+                {% for i in slots.0.1 %}
+                    <th>الحصة {{ forloop.counter }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for day, lessons in slots %}
+            <tr>
+                <td>{{ day }}</td>
+                {% for lesson in lessons %}
+                <td>{{ lesson }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'academics:index' %}" class="btn btn-secondary">العودة للرئيسية</a>
+    </div>
+</div>
+{% endblock %}

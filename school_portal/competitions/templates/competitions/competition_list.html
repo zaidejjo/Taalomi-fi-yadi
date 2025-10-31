@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4" dir="rtl" lang="ar">
+    <h2 class="mb-4 text-primary fw-bold">🏆 المسابقات</h2>
+
+    {% if competitions %}
+    <ul class="list-group">
+        {% for comp in competitions %}
+        <li class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded-3">
+            <div>
+                <strong>{{ comp.title }}</strong>
+            </div>
+            <span class="badge bg-info rounded-pill">الموعد النهائي: {{ comp.deadline|date:"d-m-Y" }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="alert alert-warning rounded-3">
+        لا يوجد مسابقات حالياً
+    </div>
+    {% endif %}
+
+    <a href="{% url 'academics:index' %}" class="btn btn-secondary mt-4 rounded-pill">العودة للرئيسية</a>
+</div>
+{% endblock %}

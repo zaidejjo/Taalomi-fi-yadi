@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block content %}
+<div dir="rtl" lang="ar">
+    <h2>الامتحانات</h2>
+    <ul>
+        {% for exam in exams %}
+        <li>{{ exam.title }} — تاريخ: {{ exam.date }}</li>
+        {% empty %}
+        <li>لا توجد امتحانات مسجلة</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'academics:index' %}">العودة للرئيسية</a>
+</div>
+{% endblock %}

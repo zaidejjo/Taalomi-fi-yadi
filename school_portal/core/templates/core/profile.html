@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}الملف الشخصي{% endblock %}
+
+{% block content %}
+<div class="container mt-5" dir="rtl" lang="ar">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="mb-0">الملف الشخصي</h3>
+                </div>
+                <div class="card-body text-center">
+                    <!-- صورة المستخدم -->
+                    <div class="profile-img mb-3">
+                        {% if profile_user.profile_image %}
+                            <img src="{{ profile_user.profile_image.url }}" alt="صورة الملف الشخصي" class="rounded-circle shadow" width="150" height="150"/>
+                        {% else %}
+                            <img src="{% static 'images/default_profile.jfif' %}" alt="صورة افتراضية" class="rounded-circle shadow" width="150" height="150"/>
+                        {% endif %}
+                    </div>
+
+                    <!-- معلومات المستخدم -->
+                    <h4 class="card-title fw-bold mb-3">
+                        {{ profile_user.get_full_name|default:profile_user.username }}
+                    </h4>
+                    <p class="mb-2"><strong>البريد الإلكتروني:</strong> {{ profile_user.email }}</p>
+                    <p class="mb-2"><strong>الدور:</strong> {{ profile_user.get_role_display }}</p>
+                    <p class="mb-2"><strong>الرقم الوطني:</strong> 
+                        {% if profile_user.national_id and request.user.is_staff %}
+                            {{ profile_user.national_id }}
+                        {% else %}
+                            ****
+                        {% endif %}
+                    </p>
+                    <p class="mb-2"><strong>الهاتف:</strong> 
+                        {% if request.user == profile_user %}
+                            {{ profile_user.phone }}
+                        {% else %}
+                            ****
+                        {% endif %}
+                    </p>
+
+                    <!-- أزرار -->
+                    <div class="mt-4">
+                        <a href="{% url 'core:home' %}" class="btn btn-outline-primary me-2">العودة</a>
+                        {% if request.user == profile_user %}
+                            <a href="{% url 'core:profile_edit' profile_user.id %}" class="btn btn-primary">تعديل الملف الشخصي</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.profile-img img {
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    transition: transform 0.3s ease;
+}
+.profile-img img:hover {
+    transform: scale(1.05);
+}
+.card-body {
+    background: #f8f9fa;
+}
+</style>
+{% endblock %}

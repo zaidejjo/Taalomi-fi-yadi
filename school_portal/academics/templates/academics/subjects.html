@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}المواد الدراسية{% endblock %}
+
+{% block content %}
+<div class="container py-5" dir="rtl" lang="ar">
+
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-primary">📚 المواد الدراسية حسب الصفوف</h2>
+        <p class="text-muted">اختر الصف ثم المادة للاطلاع على الوحدات والدروس المقررة.</p>
+    </div>
+
+    <div class="accordion" id="gradesAccordion">
+        {% for grade in grades %}
+        <div class="accordion-item mb-3 border-0 shadow-sm rounded-4">
+            <h2 class="accordion-header" id="heading{{ grade.number }}">
+                <button class="accordion-button collapsed fw-bold text-primary" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse{{ grade.number }}"
+                    aria-expanded="false"
+                    aria-controls="collapse{{ grade.number }}">
+                    الصف {{ grade.name }}
+                </button>
+            </h2>
+            <div id="collapse{{ grade.number }}" class="accordion-collapse collapse"
+                aria-labelledby="heading{{ grade.number }}"
+                data-bs-parent="#gradesAccordion">
+                <div class="accordion-body">
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        {% for subject in grade.subjects %}
+                        <a href="{% url 'academics:subject_detail' grade.number subject %}"
+                           class="btn btn-outline-primary rounded-pill px-3">
+                            {{ subject }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{% url 'academics:index' %}" class="btn btn-secondary px-4 rounded-pill">
+            🔙 العودة للرئيسية
+        </a>
+    </div>
+</div>
+
+<style>
+.accordion-button:not(.collapsed) {
+    background-color: #e8f0fe;
+    color: #0d6efd;
+}
+.accordion-button:focus {
+    box-shadow: none;
+}
+</style>
+{% endblock %}

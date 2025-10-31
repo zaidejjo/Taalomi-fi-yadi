@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block content %}
+<div dir="rtl" lang="ar">
+    <h2>{{ lesson.title }}</h2>
+    <p><strong>المادة:</strong> {{ lesson.subject.name }}</p>
+    <p><strong>التاريخ:</strong> {{ lesson.date }}</p>
+
+    {% if lesson.video %}
+    <div class="mb-3">
+        <video controls style="max-width: 100%">
+            <source src="{{ lesson.video.url }}" type="video/mp4" />
+            متصفحك لا يدعم عرض الفيديو.
+        </video>
+    </div>
+    {% endif %} {% if lesson.materials %}
+    <p>
+        <a href="{{ lesson.materials.url }}" class="btn btn-secondary"
+            >تحميل المرفقات</a
+        >
+    </p>
+    {% endif %}
+
+    <a href="{% url 'academics:subjects' %}">العودة إلى المواد</a>
+</div>
+{% endblock %}

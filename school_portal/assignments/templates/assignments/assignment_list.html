@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4" dir="rtl" lang="ar">
+    <h2 class="mb-4 text-primary fw-bold">📝 قائمة الواجبات</h2>
+
+    {% if assignments %}
+    <div class="list-group">
+        {% for assignment in assignments %}
+        <div class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded-3">
+            <div>
+                <strong>{{ assignment.title }}</strong><br>
+                <small>تاريخ التسليم: {{ assignment.due_date|date:"d-m-Y" }}</small>
+            </div>
+            {% if assignment.due_date <= today %}
+                <span class="badge bg-danger rounded-pill">متأخر</span>
+            {% elif assignment.due_date <= today|add:"3 days" %}
+                <span class="badge bg-warning rounded-pill">قريب التسليم</span>
+            {% else %}
+                <span class="badge bg-success rounded-pill">باقي وقت</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info rounded-3">
+        لا يوجد واجبات مسجلة
+    </div>
+    {% endif %}
+
+    <a href="{% url 'academics:index' %}" class="btn btn-secondary mt-4 rounded-pill">العودة للرئيسية</a>
+</div>
+{% endblock %}

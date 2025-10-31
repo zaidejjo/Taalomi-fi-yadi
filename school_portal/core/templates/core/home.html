@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}الصفحة الرئيسية{% endblock %}
+
+{% block content %}
+<div class="container py-5" dir="rtl" lang="ar">
+
+    <!-- عنوان الترحيب -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold display-5 mb-3">
+            مرحباً <span style="color: hsl(212, 82%, 24%)">{{ user.get_full_name|default:user.username }}</span> 👋<br>
+            اهلاً بك في منصة <span style="color:hsl(212, 82%, 24%); font-weight: bold; ">تعليمي في يدي</span>
+        </h1>
+
+        <p class="lead text-secondary">استخدم البطاقات أدناه للتنقل بين أقسام البوابة التعليمية بطريقة ممتعة وسريعة.</p>
+    </div>
+
+    <!-- البطاقات -->
+    <div class="row g-4 justify-content-center">
+        <!-- الأكاديميات -->
+        <div class="col-lg-3 col-md-5 col-sm-12">
+            <div class="card rounded-4 h-100 card-legendary" style="background: linear-gradient(135deg,#6a11cb,#2575fc);">
+                <div class="card-body text-center py-4">
+                    <div class="mb-2 display-3">📚</div>
+                    <h5 class="fw-bold text-white mb-2">الأكاديميات</h5>
+                    <p class="text-white-50 mb-3 small">المواد، الامتحانات، العلامات، الجدول الدراسي</p>
+                    <a href="{% url 'academics:index' %}" class="btn btn-light rounded-pill px-4 py-1 fw-bold shadow">اذهب</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- الحضور والغياب -->
+        <div class="col-lg-3 col-md-5 col-sm-12">
+            <div class="card rounded-4 h-100 card-legendary" style="background: linear-gradient(135deg,#11998e,#38ef7d);">
+                <div class="card-body text-center py-4">
+                    <div class="mb-2 display-3">🕒</div>
+                    <h5 class="fw-bold text-white mb-2">الحضور والغياب</h5>
+                    <p class="text-white-50 mb-3 small">تتبع حضور وغياب الطلاب بسهولة</p>
+                    <a href="{% url 'attendance:absence_list' %}" class="btn btn-light rounded-pill px-4 py-1 fw-bold shadow">اذهب</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- الواجبات -->
+        <div class="col-lg-3 col-md-5 col-sm-12">
+            <div class="card rounded-4 h-100 card-legendary" style="background: linear-gradient(135deg,#f7971e,#ffd200);">
+                <div class="card-body text-center py-4">
+                    <div class="mb-2 display-3">📝</div>
+                    <h5 class="fw-bold text-white mb-2">الواجبات</h5>
+                    <p class="text-white-50 mb-3 small">عرض وتسليم الواجبات المدرسية</p>
+                    <a href="{% url 'assignments:assignment_list' %}" class="btn btn-light rounded-pill px-4 py-1 fw-bold shadow">اذهب</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- المسابقات -->
+        <div class="col-lg-3 col-md-5 col-sm-12">
+            <div class="card rounded-4 h-100 card-legendary" style="background: linear-gradient(135deg,#fc5c7d,#6a82fb);">
+                <div class="card-body text-center py-4">
+                    <div class="mb-2 display-3">🏆</div>
+                    <h5 class="fw-bold text-white mb-2">المسابقات</h5>
+                    <p class="text-white-50 mb-3 small">شارك في المسابقات المدرسية المميزة</p>
+                    <a href="{% url 'competitions:competition_list' %}" class="btn btn-light rounded-pill px-4 py-1 fw-bold shadow">اذهب</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- المحادثة الذكية -->
+        <div class="col-lg-3 col-md-5 col-sm-12">
+            <div class="card rounded-4 h-100 card-legendary" style="background: linear-gradient(135deg,#36d1dc,#5b86e5);">
+                <div class="card-body text-center py-4">
+                    <div class="mb-2 display-3">🤖</div>
+                    <h5 class="fw-bold text-white mb-2">المحادثة الذكية</h5>
+                    <p class="text-white-50 mb-3 small">تحدث مع الذكاء الاصطناعي المساعد</p>
+                    <a href="{% url 'ai_chat:chat_home' %}" class="btn btn-light rounded-pill px-4 py-1 fw-bold shadow">اذهب</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card-legendary {
+    transition: transform 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
+    cursor: pointer;
+    perspective: 1000px;
+}
+.card-legendary:hover {
+    transform: rotateY(5deg) translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    filter: brightness(1.05);
+}
+.card-legendary .btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+@media (max-width: 768px) {
+    .card-legendary {
+        transform: none !important;
+    }
+}
+</style>
+{% endblock %}

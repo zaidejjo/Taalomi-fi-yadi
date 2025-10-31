@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}تعديل الملف الشخصي{% endblock %}
+
+{% block content %}
+<div class="container mt-5" dir="rtl" lang="ar">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="mb-0">تعديل الملف الشخصي</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- صورة المستخدم -->
+                        <div class="text-center mb-4">
+                            {% if form.instance.profile_image %}
+                                <img src="{{ form.instance.profile_image.url }}" alt="صورة الملف الشخصي" class="rounded-circle shadow mb-2" width="150" height="150"/>
+                            {% else %}
+                                <img src="{% static 'images/default_profile.jfif' %}" alt="صورة افتراضية" class="rounded-circle shadow mb-2" width="150" height="150"/>
+                            {% endif %}
+                            <div class="mt-2">
+                                <label for="id_profile_image" class="btn btn-outline-secondary btn-sm">تغيير الصورة</label>
+                                {{ form.profile_image }}
+                            </div>
+                        </div>
+
+                        <!-- الحقول -->
+                        {% for field in form %}
+                            {% if field.name != "profile_image" %}
+                                <div class="mb-3">
+                                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- أزرار الحفظ والإلغاء -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary me-2">حفظ التغييرات</button>
+                            <a href="{% url 'core:profile' form.instance.id %}" class="btn btn-outline-secondary">إلغاء</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card-body {
+    background: #f8f9fa;
+}
+.profile-img img {
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    transition: transform 0.3s ease;
+}
+.profile-img img:hover {
+    transform: scale(1.05);
+}
+</style>
+{% endblock %}
