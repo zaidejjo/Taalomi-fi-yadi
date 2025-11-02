@@ -38,7 +38,7 @@ def chat_ai(request):
             return JsonResponse({"reply": "مفتاح Hugging Face غير موجود في .env"}, status=500)
 
         # عنوان الـ API ونموذج اللغة
-        API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct"
+        API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral‑7B‑Instruct‑v0.2"
         headers = {
             "Authorization": f"Bearer {HUGGINGFACE_API_KEY}",
             "Content-Type": "application/json",
