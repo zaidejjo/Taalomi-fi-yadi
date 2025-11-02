@@ -91,7 +91,7 @@ LOGIN_REDIRECT_URL = '/core/'
 LOGOUT_REDIRECT_URL = '/core/'
 
 # يقرأ كل المتغيرات من ملف .env
-HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 
 # إعدادات البريد الإلكتروني باستخدام SMTP لجيميل
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
