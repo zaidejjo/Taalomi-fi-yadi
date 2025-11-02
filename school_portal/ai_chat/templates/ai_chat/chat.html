@@ -1,76 +1,128 @@
-<!-- chat.html -->
-
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% block content %}
 <style>
-/* ====== حاوية الدردشة ====== */
-.chat-container {
-    max-width: 700px;
-    margin: 40px auto 120px auto; /* مسافة كافية للشريط */
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 12px 25px rgba(158, 142, 142, 0.1);
+/* ====== حاوية كاملة ====== */
+.chat-wrapper {
     display: flex;
-    flex-direction: column;
-    height: 600px;
-    overflow: hidden;
+    max-width: 1000px;
+    margin: 20px auto;
+    height: 80vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ====== رأس الدردشة ====== */
+/* ====== Sidebar ====== */
+.sidebar {
+    width: 250px;
+    background: #f0f3f7;
+    border-radius: 15px;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+}
+
+.sidebar h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.sidebar button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.chat-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chat-item {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-item:hover {
+    background: #e3f2fd;
+}
+
+.chat-item span.delete-chat {
+    color: red;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.chat-item span.edit-chat {
+    color: #007bff;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+/* ====== Chat area ====== */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
 .chat-header {
     text-align: center;
     padding: 15px 0;
     background: linear-gradient(135deg, #007bff, #00b4d8);
     color: white;
-    font-size: 1.5rem;
     font-weight: bold;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    font-size: 1.3rem;
 }
 
-/* ====== صندوق الرسائل ====== */
 .chat-box {
     flex: 1;
-    padding: 20px;
+    padding: 15px 20px;
     overflow-y: auto;
     background: #f5f7fa;
-    scroll-behavior: smooth;
     display: flex;
     flex-direction: column;
-    gap: 12px; /* مسافة بين الرسائل */
+    gap: 10px;
 }
 
-/* ====== الرسائل ====== */
 .message {
     max-width: 75%;
-    padding: 12px 16px;
-    border-radius: 18px;
-    line-height: 1.5;
+    padding: 10px 14px;
+    border-radius: 15px;
+    line-height: 1.4;
     word-wrap: break-word;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
     position: relative;
     font-size: 0.95rem;
-    transition: transform 0.2s ease;
 }
 
-/* الرسائل المرسلة من المستخدم */
 .message.user {
     margin-left: auto;
     background: linear-gradient(135deg, #007bff, #00b4d8);
     color: white;
-    border-bottom-right-radius: 4px;
 }
 
-/* الرسائل من الذكاء الاصطناعي */
 .message.ai {
     margin-right: auto;
     background: #e6f4ea;
     color: #2c7a4b;
-    border-bottom-left-radius: 4px;
 }
 
-/* ====== وقت الرسالة ====== */
 .message-time {
     font-size: 0.7rem;
     color: #555;
@@ -79,277 +131,198 @@
     right: 8px;
 }
 
-/* ====== الهواتف ====== */
-@media (max-width: 768px) {
-    .chat-container {
-        height: calc(100vh - 130px);
-        margin: 10px auto 100px auto;
-    }
-    .message {
-        max-width: 80%;
-        font-size: 0.9rem;
-        padding: 10px 14px;
-    }
-}
-
-/* ====== شريط الإدخال متوافق بالكامل ====== */
 .input-area {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 95%;
-    max-width: 700px;
     display: flex;
-    align-items: center;
     gap: 10px;
-    padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.98);
-    border: 1px solid #d1d9e6;
-    border-radius: 30px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(8px);
-    z-index: 100;
-    transition: all 0.3s ease;
+    padding: 10px 15px;
+    border-top: 1px solid #d1d9e6;
 }
 
 .input-area input[type='text'] {
     flex: 1;
-    padding: 12px 16px;
+    padding: 10px 12px;
     border-radius: 25px;
     border: 1px solid #ccc;
-    font-size: 1rem;
     outline: none;
-    background: #f9fafc;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-.input-area input[type='text']:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
 }
 
 .input-area .send-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #007bff, #00b4d8);
-    color: white;
-    font-size: 1.4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.input-area .send-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
-
-.input-area .icon-btn {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: #f0f3f7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: linear-gradient(135deg,#007bff,#00b4d8);
+    color: white;
     font-size: 1.3rem;
-    color: #007bff;
-    transition: background 0.2s, transform 0.2s;
-}
-.input-area .icon-btn:hover {
-    background: #e3f2fd;
-    transform: scale(1.1);
-}
-
-.voice-visual {
-    display: none;
-    align-items: center;
+    display: flex;
     justify-content: center;
-    gap: 4px;
-}
-.voice-visual div {
-    width: 4px;
-    height: 15px;
-    background: #007bff;
-    border-radius: 3px;
-    animation: wave 1s infinite ease-in-out;
-}
-.voice-visual div:nth-child(2) { animation-delay: 0.1s; }
-.voice-visual div:nth-child(3) { animation-delay: 0.2s; }
-.voice-visual div:nth-child(4) { animation-delay: 0.3s; }
-.voice-visual div:nth-child(5) { animation-delay: 0.4s; }
-
-@keyframes wave {
-    0%, 100% { height: 5px; opacity: 0.4; }
-    50% { height: 20px; opacity: 1; }
+    align-items: center;
+    cursor: pointer;
 }
 
-@media (max-width: 768px) {
-    .input-area {
-        width: 90%;
-        bottom: 15px;
-        padding: 10px 12px;
-        gap: 8px;
-        border-radius: 25px;
-    }
-    .input-area input[type='text'] {
-        padding: 10px 12px;
-        font-size: 0.95rem;
-    }
-    .input-area .send-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.2rem;
-    }
-    .input-area .icon-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
-    }
-}
-button{
-    border: none;
+@media(max-width:768px){
+    .chat-wrapper{flex-direction:column;height:90vh;}
+    .sidebar{width:100%;flex-direction:row;overflow-x:auto;margin-bottom:10px;}
+    .chat-container{height:60vh;}
 }
 </style>
 
-<div class="chat-container">
-    <div class="chat-header">💬 تحدث مع الذكاء الاصطناعي</div>
-    <div id="chat-box" class="chat-box"></div>
-</div>
-
-<div class="input-area">
-    <button class="icon-btn" id="file-btn" title="إرسال ملف 📎">📎</button>
-    <button class="icon-btn" id="voice-btn" title="تسجيل صوت 🎤">🎤</button>
-    <div class="voice-visual" id="voice-visual">
-        <div></div><div></div><div></div><div></div><div></div>
+<div class="chat-wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <h3>المحادثات</h3>
+        <button id="new-chat-btn">➕ محادثة جديدة</button>
+        <div class="chat-list" id="chat-list"></div>
     </div>
-    <input id="user-input" type="text" placeholder="اكتب سؤالك هنا..." />
-    <button class="send-btn" onclick="sendMessage()">➤</button>
+
+    <!-- Chat Area -->
+    <div class="chat-container">
+        <div class="chat-header" id="chat-title">💬 تحدث مع الذكاء الاصطناعي</div>
+        <div id="chat-box" class="chat-box"></div>
+        <div class="input-area">
+            <input id="user-input" type="text" placeholder="اكتب سؤالك هنا..." />
+            <button class="send-btn" id="send-btn">➤</button>
+        </div>
+    </div>
 </div>
 
 <script>
 const chatBox = document.getElementById('chat-box');
 const inputField = document.getElementById('user-input');
-const voiceBtn = document.getElementById('voice-btn');
-const voiceVisual = document.getElementById('voice-visual');
-const sendBtn = document.querySelector('.send-btn');
-const fileBtn = document.getElementById('file-btn');
+const sendBtn = document.getElementById('send-btn');
+const chatList = document.getElementById('chat-list');
+const newChatBtn = document.getElementById('new-chat-btn');
+const chatTitle = document.getElementById('chat-title');
 
-let recognition;
-let recording = false;
 let waitingForAI = false;
+let activeChatId = null;
 
-// دالة لإضافة رسالة وإرجاع العنصر
-function addMessage(sender, text, cls) {
-    const msg = document.createElement('div');
-    msg.classList.add('message', cls);
+// تحميل المحادثات من LocalStorage
+let chats = JSON.parse(localStorage.getItem('chats') || '{}');
 
-    const now = new Date();
-    let hours = now.getHours();
-    const minutes = String(now.getMinutes()).padStart(2,'0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // إذا الساعة 0 تصبح 12
-    const time = `${hours}:${minutes} ${ampm}`;
+// Sidebar render
+function renderSidebar(){
+    chatList.innerHTML='';
+    for(const id in chats){
+        const div = document.createElement('div');
+        div.className='chat-item';
+        div.innerHTML=`<span class="chat-name">${chats[id].title}</span>
+                       <span class="edit-chat">✎</span>
+                       <span class="delete-chat">✖</span>`;
+        div.onclick=()=>loadChat(id);
 
-    msg.innerHTML = `<b>${sender}:</b> ${text} <span class="message-time">${time}</span>`;
-    chatBox.appendChild(msg);
-    chatBox.scrollTop = chatBox.scrollHeight;
+        // حذف
+        div.querySelector('.delete-chat').onclick=(e)=>{
+            e.stopPropagation();
+            delete chats[id];
+            saveChats();
+            renderSidebar();
+            if(activeChatId===id){
+                activeChatId=null;
+                chatBox.innerHTML='';
+                chatTitle.innerText='💬 تحدث مع الذكاء الاصطناعي';
+            }
+        }
 
-    return msg;
-}
+        // تغيير الاسم
+        div.querySelector('.edit-chat').onclick=(e)=>{
+            e.stopPropagation();
+            const newName=prompt('ادخل اسم جديد للمحادثة', chats[id].title);
+            if(newName){
+                chats[id].title=newName;
+                saveChats();
+                renderSidebar();
+                if(activeChatId===id) chatTitle.innerText=newName;
+            }
+        }
 
-
-// إرسال رسالة
-async function sendMessage() {
-    if(waitingForAI) return; // منع إرسال رسالة جديدة
-    const userMessage = inputField.value.trim();
-    if(!userMessage) return;
-
-    // إضافة رسالة المستخدم
-    addMessage('أنت', userMessage, 'user');
-    inputField.value = '';
-    waitingForAI = true;
-    inputField.disabled = true;
-    sendBtn.disabled = true;
-
-    // إضافة رسالة مؤقتة للذكاء الاصطناعي
-    const tempMsg = addMessage('الذكاء الاصطناعي', '...الذكاء الاصطناعي يكتب', 'ai');
-
-    try {
-        const response = await fetch("{% url 'ai_chat:chat_ai' %}", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: userMessage }),
-        });
-        const data = await response.json();
-
-        // تحديث الرسالة المؤقتة
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2,'0');
-        const minutes = String(now.getMinutes()).padStart(2,'0');
-        tempMsg.innerHTML = `<b>الذكاء الاصطناعي:</b> ${data.reply} <span class="message-time">${hours}:${minutes}</span>`;
-
-    } catch {
-        tempMsg.innerHTML = `<b>الذكاء الاصطناعي:</b> ⚠️ حدث خطأ في الاتصال`;
-    } finally {
-        waitingForAI = false;
-        inputField.disabled = false;
-        sendBtn.disabled = false;
-        inputField.focus();
+        chatList.appendChild(div);
     }
 }
 
-// دعم الضغط على Enter
-inputField.addEventListener('keypress', (e) => {
-    if(e.key === 'Enter') sendMessage();
-});
+// حفظ المحادثات
+function saveChats(){localStorage.setItem('chats',JSON.stringify(chats));}
 
-// التسجيل الصوتي
-if('webkitSpeechRecognition' in window){
-    recognition = new webkitSpeechRecognition();
-    recognition.lang = 'ar-SA';
-    recognition.continuous = false;
-
-    recognition.onstart = () => {
-        recording = true;
-        voiceBtn.innerText = '⏹️';
-        voiceBtn.style.background = '#d1e7ff';
-        voiceVisual.style.display = 'flex';
-    };
-
-    recognition.onend = () => {
-        recording = false;
-        voiceBtn.innerText = '🎤';
-        voiceBtn.style.background = '';
-        voiceVisual.style.display = 'none';
-    };
-
-    recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        inputField.value = transcript;
-    };
-
-    voiceBtn.onclick = () => {
-        if(!recording) recognition.start();
-        else recognition.stop();
-    };
-} else {
-    voiceBtn.onclick = () => alert('🎙️ المتصفح لا يدعم التسجيل الصوتي');
+// إنشاء محادثة جديدة
+newChatBtn.onclick=()=>{
+    const id='chat_'+Date.now();
+    const title='محادثة '+(Object.keys(chats).length+1);
+    chats[id]={title,messages:[]};
+    activeChatId=id;
+    saveChats();
+    renderSidebar();
+    loadChat(id);
 }
 
-// إرسال الملفات
-fileBtn.onclick = () => {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = 'image/*,audio/*,video/*,application/pdf,.txt';
-    fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        if(file) addMessage('أنت', `📎 أرسلت الملف: <b>${file.name}</b>`, 'user');
-    };
-    fileInput.click();
-};
+// تحميل محادثة
+function loadChat(id){
+    activeChatId=id;
+    chatBox.innerHTML='';
+    const chat=chats[id];
+    chatTitle.innerText=chat.title;
+    chat.messages.forEach(msg=>{
+        const div=document.createElement('div');
+        div.className='message '+msg.sender;
+        div.innerHTML=`<b>${msg.sender==='user'?'أنت':'الذكاء الاصطناعي'}:</b> ${msg.text} <span class="message-time">${msg.time}</span>`;
+        chatBox.appendChild(div);
+    });
+    chatBox.scrollTop=chatBox.scrollHeight;
+}
+
+// إضافة رسالة
+function addMessage(sender,text){
+    if(!activeChatId) return;
+    const now=new Date();
+    let hours=now.getHours();
+    const minutes=String(now.getMinutes()).padStart(2,'0');
+    const ampm = hours>=12 ? 'PM':'AM';
+    hours=hours%12; hours=hours?hours:12;
+    const time=`${hours}:${minutes} ${ampm}`;
+
+    const div=document.createElement('div');
+    div.className='message '+(sender==='user'?'user':'ai');
+    div.innerHTML=`<b>${sender==='user'?'أنت':'الذكاء الاصطناعي'}:</b> ${text} <span class="message-time">${time}</span>`;
+    chatBox.appendChild(div);
+    chatBox.scrollTop=chatBox.scrollHeight;
+
+    chats[activeChatId].messages.push({sender,text,time});
+    saveChats();
+    return div;
+}
+
+// إرسال الرسالة
+async function sendMessage(){
+    if(waitingForAI || !activeChatId) return;
+    const msg=inputField.value.trim();
+    if(!msg) return;
+    inputField.value='';
+    waitingForAI=true;
+    addMessage('user',msg);
+    const temp=addMessage('ai','...الذكاء الاصطناعي يكتب');
+
+    try{
+        const response=await fetch("{% url 'ai_chat:chat_ai' %}",{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({message:msg})
+        });
+        const data=await response.json();
+        chatBox.removeChild(temp);
+        addMessage('ai',data.reply);
+    }catch{
+        chatBox.removeChild(temp);
+        addMessage('ai','⚠️ حدث خطأ في الاتصال');
+    }finally{waitingForAI=false;}
+}
+
+sendBtn.onclick=sendMessage;
+inputField.addEventListener('keypress',e=>{if(e.key==='Enter') sendMessage();});
+
+// تهيئة أول محادثة إذا لم يكن هناك أي محادثة
+if(Object.keys(chats).length===0) newChatBtn.click();
+else{
+    activeChatId=Object.keys(chats)[0];
+    loadChat(activeChatId);
+}
+renderSidebar();
 </script>
 {% endblock %}

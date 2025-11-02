@@ -1,3 +1,4 @@
+<!-- signup.html -->
 {% extends "base.html" %}
 {% load static %}
 {% load widget_tweaks %}
@@ -6,16 +7,16 @@
 
 {% block content %}
 <div class="row justify-content-center" dir="rtl" lang="ar">
-    <div class="col-md-6">
-        <div class="card shadow-lg mt-5 border-0 rounded-4">
-            <div class="card-header bg-primary text-white text-center rounded-top-4">
+    <div class="col-md-6 col-sm-10">
+        <div class="card shadow-lg mt-5 border-0 rounded-4" style="background-color: var(--card-bg); color: var(--text-color);">
+            <div class="card-header text-center rounded-top-4" style="background: linear-gradient(135deg, #007bff, #00b4d8); color: #fff;">
                 <img src="{% static 'images/for_tabe-removebg.png' %}" alt="شعار الموقع" width="60" class="mb-2"/>
                 <h4 class="mb-0 fw-bold">إنشاء حساب جديد</h4>
             </div>
             <div class="card-body p-4">
                 {% if form.errors %}
                 <div class="alert alert-danger rounded-3 shadow-sm">
-                    تأكد من إدخال جميع الحقول بشكل صحيح.
+                    ⚠️ تأكد من إدخال جميع الحقول بشكل صحيح.
                 </div>
                 {% endif %}
 
@@ -71,12 +72,39 @@
 </div>
 
 <style>
+    /* تحسين التباين عند التركيز بدون تحريك البطاقة */
     .form-control:focus, .form-select:focus {
         border-color: #0056b3;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
     }
+
+    /* Links */
     a:hover {
         text-decoration: underline;
+    }
+
+    /* Dark Mode adjustments */
+    [data-theme="dark"] .card {
+        background-color: #2c2c3a !important;
+        color: #f5f5f5;
+    }
+
+    [data-theme="dark"] .form-control, 
+    [data-theme="dark"] .form-select {
+        background-color: #3a3a4f;
+        color: #f5f5f5;
+        border-color: #555;
+    }
+
+    [data-theme="dark"] .form-control:focus, 
+    [data-theme="dark"] .form-select:focus {
+        border-color: #00b4d8;
+        box-shadow: 0 0 5px rgba(0, 180, 216, 0.3);
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+        .card { margin-top: 3rem !important; }
     }
 </style>
 {% endblock %}
