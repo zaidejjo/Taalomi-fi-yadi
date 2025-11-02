@@ -91,7 +91,7 @@ LOGIN_REDIRECT_URL = '/core/'
 LOGOUT_REDIRECT_URL = '/core/'
 
 # يقرأ كل المتغيرات من ملف .env
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 
 # إعدادات البريد الإلكتروني باستخدام SMTP لجيميل
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -103,8 +103,6 @@ EMAIL_HOST_PASSWORD = 'lldj gobi dorn zfhr'  # كلمة مرور التطبيق 
 DEFAULT_FROM_EMAIL = 'تعلمي في يدي <taalomifiyadi@gmail.com>'
 
 AUTH_USER_MODEL = 'core.User'
-
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # مسار ملفات static العادية (CSS, JS, صور)
