@@ -26,7 +26,7 @@ class SignUpForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "first_name", "middle_name", "third_name")
+        fields = ("username", "email", "first_name", "second_name", "third_name", "fourth_name")
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -133,7 +133,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'middle_name', 'third_name', 'email', 'profile_image']
+        fields = ['first_name', 'second_name', 'third_name',"fourth_name" , 'email', 'profile_image']
 
 class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = User

@@ -23,39 +23,62 @@
                 <form method="post" class="mt-3">
                     {% csrf_token %}
 
+                    <!-- الرقم الوطني -->
                     <div class="mb-3">
                         <label for="id_username" class="form-label fw-semibold">الرقم الوطني</label>
                         {{ form.username|add_class:"form-control form-control-lg shadow-sm" }}
                     </div>
 
+                    <!-- البريد الإلكتروني -->
                     <div class="mb-3">
                         <label for="id_email" class="form-label fw-semibold">البريد الإلكتروني</label>
                         {{ form.email|add_class:"form-control form-control-lg shadow-sm" }}
                     </div>
 
+                    <!-- الأسماء -->
                     <div class="mb-3">
                         <label for="id_first_name" class="form-label fw-semibold">الاسم الأول</label>
                         {{ form.first_name|add_class:"form-control form-control-lg shadow-sm" }}
                     </div>
-
                     <div class="mb-3">
-                        <label for="id_last_name" class="form-label fw-semibold">اسم العائلة</label>
-                        {{ form.last_name|add_class:"form-control form-control-lg shadow-sm" }}
+                        <label for="id_second_name" class="form-label fw-semibold">الاسم الثاني</label>
+                        {{ form.second_name|add_class:"form-control form-control-lg shadow-sm" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_third_name" class="form-label fw-semibold">الاسم الثالث</label>
+                        {{ form.third_name|add_class:"form-control form-control-lg shadow-sm" }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_fourth_name" class="form-label fw-semibold">اسم العائلة</label>
+                        {{ form.fourth_name|add_class:"form-control form-control-lg shadow-sm" }}
                     </div>
 
+                    <!-- كلمة المرور -->
                     <div class="mb-3">
                         <label for="id_password1" class="form-label fw-semibold">كلمة المرور</label>
                         {{ form.password1|add_class:"form-control form-control-lg shadow-sm" }}
                     </div>
-
                     <div class="mb-3">
                         <label for="id_password2" class="form-label fw-semibold">تأكيد كلمة المرور</label>
                         {{ form.password2|add_class:"form-control form-control-lg shadow-sm" }}
                     </div>
 
+                    <!-- الدور -->
                     <div class="mb-3">
                         <label for="id_role" class="form-label fw-semibold">اختر الدور</label>
                         {{ form.role|add_class:"form-select form-select-lg shadow-sm" }}
+                    </div>
+
+                    <!-- الصف والشعبة للطلاب -->
+                    <div id="student-fields" style="display: none;">
+                        <div class="mb-3">
+                            <label for="id_grade" class="form-label fw-semibold">الصف</label>
+                            {{ form.grade|add_class:"form-select form-select-lg shadow-sm" }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_section" class="form-label fw-semibold">الشعبة</label>
+                            {{ form.section|add_class:"form-control form-control-lg shadow-sm" }}
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill shadow-sm">
@@ -71,40 +94,32 @@
     </div>
 </div>
 
+<script>
+    // إظهار الصف والشعبة إذا كان الدور طالب
+    const roleSelect = document.getElementById('id_role');
+    const studentFields = document.getElementById('student-fields');
+
+    roleSelect.addEventListener('change', function() {
+        studentFields.style.display = this.value === 'student' ? 'block' : 'none';
+    });
+
+    if (roleSelect.value === 'student') studentFields.style.display = 'block';
+</script>
+
 <style>
-    /* تحسين التباين عند التركيز بدون تحريك البطاقة */
     .form-control:focus, .form-select:focus {
         border-color: #0056b3;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
     }
-
-    /* Links */
-    a:hover {
-        text-decoration: underline;
+    a:hover { text-decoration: underline; }
+    [data-theme="dark"] .card { background-color: #2c2c3a !important; color: #f5f5f5; }
+    [data-theme="dark"] .form-control, [data-theme="dark"] .form-select {
+        background-color: #3a3a4f; color: #f5f5f5; border-color: #555;
     }
-
-    /* Dark Mode adjustments */
-    [data-theme="dark"] .card {
-        background-color: #2c2c3a !important;
-        color: #f5f5f5;
-    }
-
-    [data-theme="dark"] .form-control, 
-    [data-theme="dark"] .form-select {
-        background-color: #3a3a4f;
-        color: #f5f5f5;
-        border-color: #555;
-    }
-
-    [data-theme="dark"] .form-control:focus, 
-    [data-theme="dark"] .form-select:focus {
+    [data-theme="dark"] .form-control:focus, [data-theme="dark"] .form-select:focus {
         border-color: #00b4d8;
         box-shadow: 0 0 5px rgba(0, 180, 216, 0.3);
     }
-
-    /* Responsive tweaks */
-    @media (max-width: 768px) {
-        .card { margin-top: 3rem !important; }
-    }
+    @media (max-width: 768px) { .card { margin-top: 3rem !important; } }
 </style>
 {% endblock %}

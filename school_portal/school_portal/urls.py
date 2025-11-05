@@ -33,6 +33,6 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/core/', permanent=False)),
 ]
 
-# إضافة دعم ملفات الوسائط (الصور) أثناء التطوير
+# دعم ملفات الوسائط أثناء التطوير
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

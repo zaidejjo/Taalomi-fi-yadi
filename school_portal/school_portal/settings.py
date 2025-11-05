@@ -86,9 +86,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'core.User'
-LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/core/'
 LOGOUT_REDIRECT_URL = '/core/'
+LOGIN_URL = '/core/login/'
+
+
+
 
 # يقرأ كل المتغيرات من ملف .env
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")

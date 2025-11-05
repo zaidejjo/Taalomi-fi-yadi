@@ -16,7 +16,7 @@ class Weekday(models.IntegerChoices):
 class Subject(models.Model):
     name = models.CharField(max_length=100, verbose_name=_('اسم المادة'))
     grade = models.ForeignKey(GradeLevel, on_delete=models.PROTECT, verbose_name=_('الصف'))
-    teacher = models.ForeignKey(Teacher, on_delete=models.PROTECT, verbose_name=_('المعلم'))
+    teacher = models.ForeignKey(Teacher, on_delete=models.PROTECT, verbose_name=_('المعلم'), null=True, blank=True)
 
     class Meta:
         verbose_name = _('مادة')
@@ -86,4 +86,3 @@ class Grade(models.Model):
 
     def __str__(self):
         return f"{self.student} - {self.exam}: {self.score}"
-
