@@ -1,41 +1,48 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
-/* ====== حاوية كاملة ====== */
+/* ====== Container كامل ====== */
 .chat-wrapper {
     display: flex;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 20px auto;
     height: 80vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    gap: 15px;
 }
 
 /* ====== Sidebar ====== */
 .sidebar {
-    width: 250px;
+    width: 280px;
     background: #f0f3f7;
     border-radius: 15px;
     padding: 15px;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    transition: all 0.3s;
+    overflow-y: auto;
+    transition: all 0.3s ease;
 }
 
 .sidebar h3 {
     text-align: center;
-    margin-bottom: 10px;
-    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .sidebar button {
     background: #007bff;
     color: white;
     border: none;
-    padding: 8px;
-    border-radius: 8px;
+    padding: 10px 0;
+    border-radius: 12px;
     margin-bottom: 10px;
     cursor: pointer;
+    transition: 0.2s;
+}
+
+.sidebar button:hover {
+    background: #0056b3;
 }
 
 .chat-list {
@@ -47,12 +54,13 @@
 
 .chat-item {
     background: white;
-    padding: 8px 12px;
-    border-radius: 8px;
+    padding: 10px 15px;
+    border-radius: 10px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: 0.2s;
 }
 
 .chat-item:hover {
@@ -68,7 +76,7 @@
 .chat-item span.edit-chat {
     color: #007bff;
     cursor: pointer;
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
 /* ====== Chat area ====== */
@@ -78,91 +86,145 @@
     flex-direction: column;
     background: #fff;
     border-radius: 15px;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.08);
     overflow: hidden;
 }
 
+/* Header */
 .chat-header {
     text-align: center;
-    padding: 15px 0;
+    padding: 15px;
     background: linear-gradient(135deg, #007bff, #00b4d8);
     color: white;
     font-weight: bold;
     font-size: 1.3rem;
 }
 
+/* Messages Box */
 .chat-box {
     flex: 1;
-    padding: 15px 20px;
+    padding: 15px;
     overflow-y: auto;
     background: #f5f7fa;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+}
+
+.chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
 }
 
 .message {
-    max-width: 75%;
-    padding: 10px 14px;
-    border-radius: 15px;
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 20px;
     line-height: 1.4;
     word-wrap: break-word;
     position: relative;
     font-size: 0.95rem;
+    display: inline-block;
+    animation: fadeIn 0.3s ease;
 }
 
+/* Animations */
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* User message */
 .message.user {
     margin-left: auto;
     background: linear-gradient(135deg, #007bff, #00b4d8);
     color: white;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 20px;
 }
 
+/* AI message */
 .message.ai {
     margin-right: auto;
     background: #e6f4ea;
     color: #2c7a4b;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 20px;
 }
 
+/* Timestamp */
 .message-time {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: #555;
     position: absolute;
-    bottom: 2px;
-    right: 8px;
+    bottom: 4px;
+    right: 10px;
 }
 
+/* Input area */
 .input-area {
     display: flex;
     gap: 10px;
-    padding: 10px 15px;
+    padding: 12px 15px;
     border-top: 1px solid #d1d9e6;
+    background: #fff;
 }
 
 .input-area input[type='text'] {
     flex: 1;
-    padding: 10px 12px;
+    padding: 12px 15px;
     border-radius: 25px;
     border: 1px solid #ccc;
     outline: none;
+    transition: 0.2s;
+}
+
+.input-area input[type='text']:focus {
+    border-color: #007bff;
 }
 
 .input-area .send-btn {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: linear-gradient(135deg,#007bff,#00b4d8);
     color: white;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: 0.2s;
+}
+
+.input-area .send-btn:hover {
+    transform: scale(1.05);
+}
+
+/* ====== Responsive ====== */
+@media(max-width:1024px){
+    .chat-wrapper{flex-direction: column;height:90vh;}
+    .sidebar{width:100%;flex-direction:row;overflow-x:auto;margin-bottom:10px;}
+    .chat-container{height:60vh;}
 }
 
 @media(max-width:768px){
-    .chat-wrapper{flex-direction:column;height:90vh;}
+    .chat-wrapper{flex-direction:column;height:95vh;}
     .sidebar{width:100%;flex-direction:row;overflow-x:auto;margin-bottom:10px;}
-    .chat-container{height:60vh;}
+    .chat-container{height:65vh;}
+}
+
+@media(max-width:480px){
+    .chat-header{font-size:1.1rem;padding:10px;}
+    .input-area input[type='text']{padding:10px;}
+    .input-area .send-btn{width:45px;height:45px;font-size:1.2rem;}
+    .chat-item{padding:8px 10px;font-size:0.9rem;}
 }
 </style>
 
@@ -210,7 +272,6 @@ function renderSidebar(){
                        <span class="delete-chat">✖</span>`;
         div.onclick=()=>loadChat(id);
 
-        // حذف
         div.querySelector('.delete-chat').onclick=(e)=>{
             e.stopPropagation();
             delete chats[id];
@@ -223,7 +284,6 @@ function renderSidebar(){
             }
         }
 
-        // تغيير الاسم
         div.querySelector('.edit-chat').onclick=(e)=>{
             e.stopPropagation();
             const newName=prompt('ادخل اسم جديد للمحادثة', chats[id].title);
@@ -262,7 +322,7 @@ function loadChat(id){
     chat.messages.forEach(msg=>{
         const div=document.createElement('div');
         div.className='message '+msg.sender;
-        div.innerHTML=`<b>${msg.sender==='user'?'أنت':'الذكاء الاصطناعي'}:</b> ${msg.text} <span class="message-time">${msg.time}</span>`;
+        div.innerHTML=`<b style="user-select: none;">${msg.sender==='user'?'أنت':'الذكاء الاصطناعي'}:</b> ${msg.text} <span class="message-time">${msg.time}</span>`;
         chatBox.appendChild(div);
     });
     chatBox.scrollTop=chatBox.scrollHeight;

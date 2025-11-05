@@ -1,13 +1,55 @@
-{% extends 'base.html' %} {% block content %}
-<div dir="rtl" lang="ar">
-    <h2>الامتحانات</h2>
-    <ul>
-        {% for exam in exams %}
-        <li>{{ exam.title }} — تاريخ: {{ exam.date }}</li>
-        {% empty %}
-        <li>لا توجد امتحانات مسجلة</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'academics:index' %}">العودة للرئيسية</a>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}الامتحانات{% endblock %}
+
+{% block content %}
+<div class="container py-4" dir="rtl" lang="ar">
+    <h2 class="text-primary fw-bold mb-4">📝 قائمة الامتحانات</h2>
+
+    {% if exams %}
+        <div class="list-group">
+            {% for exam in exams %}
+            <div id="exam-{{ exam.id }}" class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded-3 p-3">
+                <div>
+                    <h5 class="mb-1 fw-bold">{{ exam.title }}</h5>
+                    <small class="text-muted">تاريخ الامتحان: {{ exam.date|date:"d-m-Y" }}</small>
+                    {% if exam.description %}
+                        <p class="mb-0 text-secondary">{{ exam.description }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="text-end">
+                    {% if user.is_staff or user.role == 'teacher' %}
+                        <!-- أزرار للمعلم أو المدير فقط -->
+                        <div class="d-flex gap-2 justify-content-end">
+                            <a href="{% url 'exams:edit_exam' exam.id %}" class="btn btn-sm btn-outline-primary">✏ تعديل</a>
+                            <form action="{% url 'exams:delete_exam' exam.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger">🗑 حذف</button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <!-- للطالب: إمكانية تقديم الامتحان إذا متاح -->
+                        {% if exam.is_active %}
+                            <a href="{% url 'exams:take_exam' exam.id %}" class="btn btn-sm btn-outline-success mt-2">📝 تقديم الامتحان</a>
+                        {% else %}
+                            <span class="badge bg-secondary mt-2">غير متاح</span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info rounded-3 shadow-sm">
+            لا توجد امتحانات مسجلة حاليًا.
+        </div>
+    {% endif %}
+
+    <a href="{% url 'core:home' %}" class="btn btn-secondary mt-4 rounded-pill shadow-sm">العودة للأكاديمات ➡</a>
 </div>
+
+<style>
+
+</style>
 {% endblock %}

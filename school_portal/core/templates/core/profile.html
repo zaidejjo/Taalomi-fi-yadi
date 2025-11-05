@@ -1,52 +1,64 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}الملف الشخصي{% endblock %}
 
 {% block content %}
-<div class="container mt-5" dir="rtl" lang="ar">
+<div class="container my-5" dir="rtl" lang="ar">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                <div class="card-header bg-primary text-white text-center py-4">
-                    <h3 class="mb-0">الملف الشخصي</h3>
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+                <!-- Header -->
+                <div class="card-header text-white text-center py-3" style="background-color: var(--navbar-bg, #0d6efd)">
+                    <h3 class="mb-0 fw-bold">الملف الشخصي</h3>
                 </div>
-                <div class="card-body text-center">
+
+                <!-- Body -->
+                <div class="card-body p-4 text-center">
                     <!-- صورة المستخدم -->
-                    <div class="profile-img mb-3">
+                    <div class="profile-img mb-3 mx-auto" style="width: 140px; height: 140px">
                         {% if profile_user.profile_image %}
-                            <img src="{{ profile_user.profile_image.url }}" alt="صورة الملف الشخصي" class="rounded-circle shadow" width="150" height="150"/>
+                            <img src="{{ profile_user.profile_image.url }}" alt="صورة الملف الشخصي" class="rounded-circle shadow w-100 h-100" style="object-fit: cover" />
                         {% else %}
-                            <img src="{% static 'images/default_profile.jfif' %}" alt="صورة افتراضية" class="rounded-circle shadow" width="150" height="150"/>
+                            <img src="{% static 'images/default_profile.jfif' %}" alt="صورة افتراضية" class="rounded-circle shadow w-100 h-100" style="object-fit: cover" />
                         {% endif %}
                     </div>
 
-                    <!-- معلومات المستخدم -->
-                    <h4 class="card-title fw-bold mb-3">
+                    <!-- اسم المستخدم -->
+                    <h4 class="card-title fw-bold mb-1 text-dark">
                         {{ profile_user.get_full_name|default:profile_user.username }}
                     </h4>
-                    <p class="mb-2"><strong>البريد الإلكتروني:</strong> {{ profile_user.email }}</p>
-                    <p class="mb-2"><strong>الدور:</strong> {{ profile_user.get_role_display }}</p>
-                    <p class="mb-2"><strong>الرقم الوطني:</strong> 
-                        {% if profile_user.national_id and request.user.is_staff %}
-                            {{ profile_user.national_id }}
-                        {% else %}
-                            ****
-                        {% endif %}
-                    </p>
-                    <p class="mb-2"><strong>الهاتف:</strong> 
-                        {% if request.user == profile_user %}
-                            {{ profile_user.phone }}
-                        {% else %}
-                            ****
-                        {% endif %}
-                    </p>
+                    <p class="text-dark small mb-3">@{{ profile_user.username }}</p>
+
+                    <!-- معلومات المستخدم -->
+                    <div class="info mx-auto text-start" style="max-width: 420px;">
+                        <p class="mb-2 text-dark">
+                            <strong>📧 البريد الإلكتروني:</strong>
+                            {% if request.user == profile_user or request.user.is_staff %} {{ profile_user.email }} {% else %} **** {% endif %}
+                        </p>
+                        <p class="mb-2 text-dark">
+                            <strong>🎭 الدور:</strong>
+                            <span class="badge bg-info text-dark">{{ profile_user.get_role_display }}</span>
+                        </p>
+                        <p class="mb-2 text-dark">
+                            <strong>🆔 الرقم الوطني:</strong>
+                            {% if not profile_user.national_id %} **** 
+                            {% elif request.user.is_staff or request.user == profile_user %} {{ profile_user.national_id }} 
+                            {% else %} ****{{ profile_user.national_id|slice:"-4:" }} {% endif %}
+                        </p>
+                        <p class="mb-2 text-dark">
+                            <strong>📅 تاريخ الانضمام:</strong> {{ profile_user.date_joined|date:"Y-m-d" }}
+                        </p>
+                        <p class="mb-2 text-dark">
+                            <strong>⏰ آخر تسجيل دخول:</strong> {{ profile_user.last_login|date:"Y-m-d H:i" }}
+                        </p>
+                    </div>
 
                     <!-- أزرار -->
-                    <div class="mt-4">
-                        <a href="{% url 'core:home' %}" class="btn btn-outline-primary me-2">العودة</a>
+                    <div class="mt-4 d-flex justify-content-center flex-wrap gap-2">
+                        <a href="{% url 'core:home' %}" class="btn btn-outline-primary">⬅ العودة</a>
                         {% if request.user == profile_user %}
-                            <a href="{% url 'core:profile_edit' profile_user.id %}" class="btn btn-primary">تعديل الملف الشخصي</a>
+                            <a href="{% url 'core:profile_edit' profile_user.id %}" class="btn btn-primary">✏ تعديل الملف الشخصي</a>
+                            <a href="" class="btn btn-warning">🔑 تغيير كلمة المرور</a>
                         {% endif %}
                     </div>
                 </div>
@@ -56,16 +68,57 @@
 </div>
 
 <style>
+/* صورة الملف الشخصي */
 .profile-img img {
-    object-fit: cover;
-    border: 4px solid #ffffff;
-    transition: transform 0.3s ease;
+    border: 3px solid #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .profile-img img:hover {
     transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
+
+/* النصوص والكارد */
 .card-body {
-    background: #f8f9fa;
+    background: #ffffff !important;
+}
+.card-title,
+.info p,
+.text-dark {
+    color: #000 !important;
+    font-size: 0.95rem;
+}
+.info p strong {
+    font-weight: 600;
+}
+
+/* الأزرار */
+.btn {
+    min-width: 130px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* البطاقة */
+.card {
+    font-size: 0.95rem;
+}
+
+/* تباعد داخلي مناسب */
+.card-body p {
+    margin-bottom: 0.5rem;
+}
+
+/* جعل البطاقة متناغمة مع الخطوط */
+@media (max-width: 768px) {
+    .profile-img {
+        width: 120px !important;
+        height: 120px !important;
+    }
+    .btn {
+        min-width: 120px;
+        font-size: 0.85rem;
+    }
 }
 </style>
 {% endblock %}
