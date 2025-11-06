@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}تفاصيل الامتحان{% endblock %}
+
+{% block content %}
+<div class="container py-4" dir="rtl" lang="ar">
+    <h2 class="text-primary mb-3">{{ exam.title }}</h2>
+    <p><strong>المادة:</strong> {{ exam.subject.name }}</p>
+    <p><strong>تاريخ الامتحان:</strong> {{ exam.date|date:"d-m-Y" }}</p>
+    {% if exam.description %}
+    <p><strong>الوصف:</strong> {{ exam.description }}</p>
+    {% endif %}
+
+    {% if exam.is_active %}
+        <a href="{% url 'exams:take_exam' exam.id %}" class="btn btn-success">📝 تقديم الامتحان</a>
+    {% else %}
+        <span class="badge bg-secondary">غير متاح</span>
+    {% endif %}
+    <a href="{% url 'exams:list_exams' %}" class="btn btn-secondary mt-3">عودة للقائمة</a>
+</div>
+{% endblock %}

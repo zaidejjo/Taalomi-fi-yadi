@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}حذف الامتحان{% endblock %}
+
+{% block content %}
+<div class="container py-4" dir="rtl" lang="ar">
+    <h2 class="text-danger mb-4">حذف الامتحان</h2>
+    <p>هل أنت متأكد من حذف الامتحان "<strong>{{ exam.title }}</strong>"؟</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">نعم، احذف</button>
+        <a href="{% url 'exams:list_exams' %}" class="btn btn-secondary">إلغاء</a>
+    </form>
+</div>
+{% endblock %}

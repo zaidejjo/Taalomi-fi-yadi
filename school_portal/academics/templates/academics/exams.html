@@ -20,7 +20,6 @@
 
                 <div class="text-end">
                     {% if user.is_staff or user.role == 'teacher' %}
-                        <!-- أزرار للمعلم أو المدير فقط -->
                         <div class="d-flex gap-2 justify-content-end">
                             <a href="{% url 'exams:edit_exam' exam.id %}" class="btn btn-sm btn-outline-primary">✏ تعديل</a>
                             <form action="{% url 'exams:delete_exam' exam.id %}" method="post" class="d-inline">
@@ -29,7 +28,6 @@
                             </form>
                         </div>
                     {% else %}
-                        <!-- للطالب: إمكانية تقديم الامتحان إذا متاح -->
                         {% if exam.is_active %}
                             <a href="{% url 'exams:take_exam' exam.id %}" class="btn btn-sm btn-outline-success mt-2">📝 تقديم الامتحان</a>
                         {% else %}
@@ -48,8 +46,4 @@
 
     <a href="{% url 'core:home' %}" class="btn btn-secondary mt-4 rounded-pill shadow-sm">العودة للأكاديمات ➡</a>
 </div>
-
-<style>
-
-</style>
 {% endblock %}

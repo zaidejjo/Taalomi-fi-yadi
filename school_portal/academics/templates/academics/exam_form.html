@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{% if exam %}تعديل الامتحان{% else %}إضافة امتحان{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container py-4" dir="rtl" lang="ar">
+    <h2 class="text-primary mb-4">{% if exam %}تعديل الامتحان{% else %}إضافة امتحان{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">{% if exam %}تحديث{% else %}إضافة{% endif %}</button>
+        <a href="{% url 'exams:list_exams' %}" class="btn btn-secondary">إلغاء</a>
+    </form>
+</div>
+{% endblock %}

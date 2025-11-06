@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div dir="rtl" lang="ar" class="container py-4">
+    <h1 class="text-primary mb-4">{{ lesson.title }}</h1>
+    <p>
+        <strong>المادة:</strong> {{ subject_name }} | <strong>الصف:</strong> {{ grade_number }}
+    </p>
+
+    {% if lesson.videos %}
+    {% if lesson.videos|length > 1 %}
+    <!-- كاروسيل الفيديوهات إذا أكثر من فيديو -->
+    <div id="videoCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for video in lesson.videos %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="ratio ratio-16x9">
+                    <iframe
+                        src="{{ video }}"
+                        title="{{ lesson.title }}"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        loading="lazy"
+                    ></iframe>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#videoCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">السابق</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#videoCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">التالي</span>
+        </button>
+    </div>
+    {% else %}
+    <!-- فيديو واحد فقط -->
+    <div class="mb-4 ratio ratio-16x9">
+        <iframe
+            src="{{ lesson.videos.0 }}"
+            title="{{ lesson.title }}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+        ></iframe>
+    </div>
+    {% endif %}
+    {% else %}
+    <p class="text-danger fw-bold mt-3">لا يوجد فيديوهات لهذا الدرس حالياً.</p>
+    {% endif %}
+
+    <a
+        href="{% url 'academics:subject_detail' grade_number=grade_number subject_name=subject_name %}"
+        class="btn btn-secondary mt-3"
+    >
+        العودة إلى الدروس
+    </a>
+</div>
+{% endblock %}

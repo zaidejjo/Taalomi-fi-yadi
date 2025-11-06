@@ -1,24 +1,36 @@
-{% extends 'base.html' %} {% block content %}
-<div dir="rtl" lang="ar">
-    <h2>{{ lesson.title }}</h2>
-    <p><strong>المادة:</strong> {{ lesson.subject.name }}</p>
-    <p><strong>التاريخ:</strong> {{ lesson.date }}</p>
-
-    {% if lesson.video %}
-    <div class="mb-3">
-        <video controls style="max-width: 100%">
-            <source src="{{ lesson.video.url }}" type="video/mp4" />
-            متصفحك لا يدعم عرض الفيديو.
-        </video>
+{% extends 'base.html' %} {% load static %} {% block title %}{{ lesson.title }}
+- {{ lesson.subject }}{% endblock %} {% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>{{ lesson.title }}</h2>
+            <p class="text-muted">{{ lesson.subject }} - {{ lesson.unit }}</p>
+        </div>
+        <div class="card-body">
+            {% if video_urls %} {% for video_url in video_urls %}
+            <div class="embed-responsive embed-responsive-16by9 mb-4">
+                <iframe
+                    class="embed-responsive-item"
+                    src="{{ video_url }}"
+                    allowfullscreen
+                >
+                </iframe>
+            </div>
+            {% endfor %} {% else %}
+            <p class="text-muted">لا يوجد فيديو لهذا الدرس</p>
+            {% endif %} {% if lesson.materials.all %}
+            <h4 class="mt-4">المرفقات:</h4>
+            <ul class="list-group">
+                {% for material in lesson.materials.all %}
+                <li class="list-group-item">
+                    <a href="{{ material.file.url }}" target="_blank">
+                        {{ material.file.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
     </div>
-    {% endif %} {% if lesson.materials %}
-    <p>
-        <a href="{{ lesson.materials.url }}" class="btn btn-secondary"
-            >تحميل المرفقات</a
-        >
-    </p>
-    {% endif %}
-
-    <a href="{% url 'academics:subjects' %}">العودة إلى المواد</a>
 </div>
 {% endblock %}

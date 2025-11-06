@@ -1,309 +1,442 @@
-<!-- base.html (layout) -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-    {% load static %}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{% block title %}تعليمي في يدي{% endblock %}</title>
+    <head>
+        {% load static %}
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{% block title %}تعليمي في يدي{% endblock %}</title>
 
-    <!-- Favicon -->
-    <link rel="icon" href="{% static 'images/last.png' %}" />
+        <!-- Favicon -->
+        <link rel="icon" href="{% static 'images/last.png' %}" />
 
-    <!-- Bootstrap RTL CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+        <!-- Bootstrap RTL CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+            rel="stylesheet"
+        />
 
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            rel="stylesheet"
+        />
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
-<style>
-    /* ==========================
-       متغيرات التصميم العامة
-    ========================== */
-    :root {
-        --bg-color: #f5f7fa;
-        --text-color: #000;
-        --navbar-bg: #0d6efd;
-        --navbar-text: #fff;
-        --card-bg: #fff;
-        --footer-bg: #0d6efd;
+        <style>
+            :root {
+                --bg-color: #f5f7fa;
+                --text-color: #000;
+                --navbar-bg: #0d6efd;
+                --navbar-text: #fff;
+                --card-bg: #fff;
+                --footer-bg: #0d6efd;
 
-        --font-size-base: 0.95rem;   /* تكبير بسيط جدًا */
-        --font-size-small: 0.85rem;  /* للعناصر الثانوية */
-        --font-size-large: 1rem;     /* العناوين */
-        --border-radius: 12px;       /* تقوس للكروت */
-    }
+                --font-size-base: 0.95rem;
+                --font-size-small: 0.85rem;
+                --font-size-large: 1rem;
+                --border-radius: 12px;
+            }
 
-    [data-theme="dark"] {
-        --bg-color: #1e1e2f;
-        --text-color: #f5f5f5;
-        --navbar-bg: #121212;
-        --navbar-text: #f5f5f5;
-        --card-bg: #2c2c3a;
-        --footer-bg: #121212;
-    }
+            [data-theme='dark'] {
+                --bg-color: #1e1e2f;
+                --text-color: #f5f5f5;
+                --navbar-bg: #121212;
+                --navbar-text: #f5f5f5;
+                --card-bg: #2c2c3a;
+                --footer-bg: #121212;
+            }
 
-    /* ==========================
-       إعدادات أساسية للجسم
-    ========================== */
-    html, body {
-        height: 100%;
-        font-size: var(--font-size-base);
-        line-height: 1.55;
-    }
+            html,
+            body {
+                height: 100%;
+                font-size: var(--font-size-base);
+                line-height: 1.55;
+            }
 
-    body {
-        display: flex;
-        flex-direction: column;
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        margin: 0;
-    }
+            body {
+                display: flex;
+                flex-direction: column;
+                background-color: var(--bg-color);
+                color: var(--text-color);
+                margin: 0;
+            }
 
-    a {
-        color: inherit;
-    }
+            a {
+                color: inherit;
+            }
+            a:hover {
+                text-decoration: none;
+            }
 
-    a:hover {
-        text-decoration: none;
-    }
+            /* Content wrapper */
+            .content-wrapper {
+                flex: 1 0 auto;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
 
-    .content-wrapper {
-        flex: 1 0 auto;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
+            /* Navbar */
+            .navbar {
+                background-color: var(--navbar-bg) !important;
+                color: var(--navbar-text) !important;
+                font-size: var(--font-size-base);
+                padding: 0.5rem 1rem;
+            }
+            .navbar .nav-link,
+            .navbar .navbar-brand span {
+                color: var(--navbar-text) !important;
+            }
+            .navbar .nav-link:hover,
+            .navbar .dropdown-item:hover {
+                border-radius: var(--border-radius);
+            }
+            .navbar-brand img {
+                border-radius: 10px;
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+            }
+            .nav-link i {
+                margin-left: 5px;
+            }
 
-    /* ==========================
-       Navbar
-    ========================== */
-    .navbar {
-        background-color: var(--navbar-bg) !important;
-        color: var(--navbar-text) !important;
-        font-size: var(--font-size-base);
-        padding: 0.5rem 1rem;
-    }
+            /* Cards */
+            .card {
+                border-radius: var(--border-radius);
+                background-color: var(--card-bg);
+                color: var(--text-color);
+                font-size: var(--font-size-base);
+                padding: 0.9rem;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                margin-bottom: 1rem;
+            }
 
-    .navbar .nav-link, .navbar .navbar-brand span {
-        color: var(--navbar-text) !important;
-    }
+            /* Buttons */
+            .btn-sm {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.6rem;
+            }
 
-    .navbar .nav-link:hover, .navbar .dropdown-item:hover {
-        background-color: rgba(255, 255, 255, 0.15);
-        border-radius: var(--border-radius);
-    }
+            /* Dropdown menu animation */
+            .navbar .dropdown-menu {
+                display: block;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(10px);
+                transition: all 0.3s ease;
+            }
 
-    .navbar-brand img {
-        border-radius: 10px;
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-    }
+            .navbar .dropdown-menu.show {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
 
-    .nav-link i {
-        margin-left: 5px;
-    }
+            .dropdown-menu .dropdown-item:hover {
+                background-color: rgba(13, 110, 253, 0.15);
+                color: #0d6efd;
+                transform: translateX(-5px);
+                transition: all 0.25s ease;
+            }
 
-    /* ==========================
-       Cards
-    ========================== */
-    .card {
-        border-radius: var(--border-radius);
-        background-color: var(--card-bg);
-        color: var(--text-color);
-        font-size: var(--font-size-base);
-        padding: 0.9rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        margin-bottom: 1rem;
-    }
+            /* Footer */
+            footer {
+                flex-shrink: 0;
+                background-color: var(--footer-bg);
+                font-size: var(--font-size-small);
+                line-height: 1.45;
+                padding: 1rem 0;
+            }
+            footer a {
+                text-decoration: underline;
+                color: inherit;
+            }
+            footer a:hover {
+                color: #ffd700;
+            }
 
-    /* ==========================
-       Buttons
-    ========================== */
-    .btn-sm {
-        font-size: 0.8rem;
-        padding: 0.3rem 0.6rem;
-    }
+            /* Dark Mode Toggle */
+            #toggle-theme {
+                font-size: 0.8rem;
+                padding: 0.25rem 0.5rem;
+            }
 
-    /* ==========================
-       Dropdown menu
-    ========================== */
-    .dropdown-menu {
-        font-size: var(--font-size-small);
-    }
+            /* Tables */
+            table {
+                font-size: var(--font-size-small);
+            }
+            th,
+            td {
+                padding: 0.45rem 0.7rem;
+                vertical-align: middle;
+            }
 
-    /* ==========================
-       Footer
-    ========================== */
-    footer {
-        flex-shrink: 0;
-        background-color: var(--footer-bg);
-        font-size: var(--font-size-small);
-        line-height: 1.45;
-        padding: 1rem 0;
-    }
+            /* Responsive */
+            @media (max-width: 768px) {
+                .navbar-brand span {
+                    font-size: var(--font-size-small);
+                }
+                .navbar .nav-link {
+                    font-size: var(--font-size-small);
+                    padding: 0.35rem 0.5rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+            <div class="container-fluid">
+                <a
+                    class="navbar-brand d-flex align-items-center"
+                    href="{% url 'core:home' %}"
+                >
+                    <img
+                        src="{% static 'images/last_withtext.png' %}"
+                        alt="شعار الموقع"
+                        width="70"
+                        height="70"
+                        class="me-2"
+                    />
+                    <span class="fw-bold fs-5">تعليمي في يدي</span>
+                </a>
 
-    footer a {
-        text-decoration: underline;
-        color: inherit;
-    }
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-    footer a:hover {
-        color: #ffd700;
-    }
-
-    /* ==========================
-       Dark mode toggle adjustments
-    ========================== */
-    #toggle-theme {
-        font-size: 0.8rem;
-        padding: 0.25rem 0.5rem;
-    }
-
-    /* ==========================
-       Tables
-    ========================== */
-    table {
-        font-size: var(--font-size-small);
-    }
-
-    th, td {
-        padding: 0.45rem 0.7rem;
-        vertical-align: middle;
-    }
-
-    /* ==========================
-       Responsive tweaks
-    ========================== */
-    @media (max-width: 768px) {
-        .navbar-brand span {
-            font-size: var(--font-size-small);
-        }
-
-        .navbar .nav-link {
-            font-size: var(--font-size-small);
-            padding: 0.35rem 0.5rem;
-        }
-    }
-</style>
-
-
-
-</head>
-<body>
-    <!-- شريط التنقل -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container-fluid">
-            <!-- شعار الموقع -->
-            <a class="navbar-brand d-flex align-items-center" href="{% url 'core:home' %}">
-                <img src="{% static 'images/last_withtext.png' %}" alt="شعار الموقع" width="70" height="70" class="me-2" />
-                <span class="fw-bold fs-5">تعليمي في يدي</span>
-            </a>
-
-            <!-- زر القوائم في الهاتف -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- القوائم الرئيسية -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center" href="{% url 'core:home' %}">
-                            <i class="fa-solid fa-house"></i>
-                            <span>الرئيسية</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">📚 الأكاديميات</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'academics:subjects' %}">المواد</a></li>
-                            <li><a class="dropdown-item" href="{% url 'academics:exams' %}">الامتحانات</a></li>
-                            <li><a class="dropdown-item" href="{% url 'academics:grades' %}">العلامات</a></li>
-                            <li><a class="dropdown-item" href="{% url 'academics:timetable' %}">الجدول الدراسي</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item"><a class="nav-link" href="{% url 'attendance:absence_list' %}">🕒 الحضور والغياب</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'assignments:assignment_list' %}">📝 الواجبات</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'competitions:competition_list' %}">🏆 المسابقات</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'ai_chat:chat_home' %}">🤖 المحادثة الذكية</a></li>
-                </ul>
-
-                <!-- حساب المستخدم + Dark Mode -->
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item me-2">
-                        <button id="toggle-theme" class="btn btn-outline-light btn-sm">🌙</button>
-                    </li>
-
-                    {% if user.is_authenticated %}
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center" href="{% url 'core:profile' user.id %}">
+                            <a
+                                class="nav-link d-flex align-items-center"
+                                href="{% url 'core:home' %}"
+                            >
+                                <i class="fa-solid fa-house"></i>
+                                <span>الرئيسية</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                data-bs-toggle="dropdown"
+                                >📚 الأكاديميات</a
+                            >
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'academics:subjects' %}"
+                                        >المواد</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'academics:exams' %}"
+                                        >الامتحانات</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'academics:grades' %}"
+                                        >العلامات</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'academics:timetable' %}"
+                                        >الجدول الدراسي</a
+                                    >
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'attendance:absence_list' %}"
+                                >🕒 الحضور والغياب</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'assignments:assignment_list' %}"
+                                >📝 الواجبات</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'competitions:competition_list' %}"
+                                >🏆 المسابقات</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'ai_chat:chat_home' %}"
+                                >🤖 المحادثة الذكية</a
+                            >
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item me-2">
+                            <button
+                                id="toggle-theme"
+                                class="btn btn-outline-light btn-sm"
+                            >
+                                🌙
+                            </button>
+                        </li>
+
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a
+                                class="nav-link d-flex align-items-center"
+                                href="{% url 'core:profile' user.id %}"
+                            >
                                 الملف الشخصي <i class="fa-solid fa-user"></i>
                             </a>
                         </li>
                         <li class="nav-item">
                             <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-link nav-link p-0 m-0">تسجيل الخروج <i class="fa-solid fa-right-from-bracket"></i></button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-link nav-link p-0 m-0"
+                                >
+                                    تسجيل الخروج
+                                    <i
+                                        class="fa-solid fa-right-from-bracket"
+                                    ></i>
+                                </button>
                             </form>
                         </li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">تسجيل الدخول</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">إنشاء حساب</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'password_reset' %}">نسيت كلمة المرور؟</a></li>
-                    {% endif %}
-                </ul>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}"
+                                >تسجيل الدخول</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'signup' %}"
+                                >إنشاء حساب</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="{% url 'password_reset' %}"
+                                >نسيت كلمة المرور؟</a
+                            >
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
+        </nav>
+
+        <!-- Page content -->
+        <div class="container my-4 content-wrapper">
+            {% block content %}{% endblock %}
         </div>
-    </nav>
 
-    <!-- محتوى الصفحة -->
-    <div class="container my-4 content-wrapper">
-        {% block content %}{% endblock %}
-    </div>
+        <!-- Footer -->
+        <footer class="text-white mt-5 py-4 text-center">
+            <div class="container">
+                <p class="mb-1">
+                    © 2025 منصة تعليمي في يدي. جميع الحقوق محفوظة.
+                </p>
+                <p class="mb-1">
+                    فريق الانشاء:
+                    <a
+                        href="https://www.instagram.com/zaidejjo/"
+                        class="text-white fw-bold"
+                        >زيد علي عجو</a
+                    >
+                    <a
+                        href="https://www.instagram.com/mohammadshboul179/"
+                        class="text-white fw-bold"
+                        >محمد إياد الشبول</a
+                    >
+                    <a
+                        href="https://www.instagram.com/wardatryadahmad/"
+                        class="text-white fw-bold"
+                        >رياض أحمد الوردات</a
+                    >
+                </p>
+                <p>
+                    للتواصل:
+                    <a href="mailto:zaidejjo@gmail.com" class="text-white"
+                        >zaidejjo@gmail.com</a
+                    >
+                    |
+                    <a href="mailto:TaalomiFiYadi@gmail.com" class="text-white"
+                        >TaalomiFiYadi@gmail.com</a
+                    ><br />
+                    الهاتف:
+                    <a href="tel:+962790000000" class="text-white"
+                        >+962 788 09 1124</a
+                    >
+                </p>
+            </div>
+        </footer>
 
-    <!-- الفوتر -->
-    <footer class="text-white mt-5 py-4 text-center">
-        <div class="container">
-            <p class="mb-1">© 2025 منصة تعليمي في يدي. جميع الحقوق محفوظة.</p>
-            <p class="mb-1">
-                فريق الانشاء: 
-                <a href="https://github.com/zaidejjo" class="text-white fw-bold">
-                    زيد علي عجو | محمد إياد الشبول | رياض أحمد الوردات
-                </a>
-            </p>
-            <p>
-                للتواصل: 
-                <a href="mailto:zaidejjo@gmail.com" class="text-white">zaidejjo@gmail.com</a> | 
-                <a href="mailto:TaalomiFiYadi@gmail.com" class="text-white">TaalomiFiYadi@gmail.com</a><br>
-                الهاتف: <a href="tel:+962790000000" class="text-white">+962 788 09 1124</a>
-            </p>
-        </div>
-    </footer>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Dark Mode -->
+        <script>
+            const toggleBtn = document.getElementById('toggle-theme');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                toggleBtn.innerText = '☀️';
+            }
+            toggleBtn.onclick = () => {
+                const theme =
+                    document.documentElement.getAttribute('data-theme') ===
+                    'dark'
+                        ? 'light'
+                        : 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                toggleBtn.innerText = theme === 'dark' ? '☀️' : '🌙';
+            };
+        </script>
 
-    <!-- Dark Mode JS -->
-    <script>
-        const toggleBtn = document.getElementById('toggle-theme');
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        if(currentTheme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark'); 
-            toggleBtn.innerText = '☀️';
-        }
-
-        toggleBtn.onclick = () => {
-            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            toggleBtn.innerText = theme === 'dark' ? '☀️' : '🌙';
-        }
-    </script>
-</body>
+        <!-- Dropdown hover with delay -->
+        <script>
+            document
+                .querySelectorAll('.navbar .dropdown')
+                .forEach(function (drop) {
+                    let timeout;
+                    drop.addEventListener('mouseenter', function () {
+                        clearTimeout(timeout);
+                        let menu = drop.querySelector('.dropdown-menu');
+                        menu.classList.add('show');
+                    });
+                    drop.addEventListener('mouseleave', function () {
+                        let menu = drop.querySelector('.dropdown-menu');
+                        timeout = setTimeout(function () {
+                            menu.classList.remove('show');
+                        }, 300);
+                    });
+                });
+        </script>
+    </body>
 </html>

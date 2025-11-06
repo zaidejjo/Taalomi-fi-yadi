@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from .models import Lesson, TimetableSlot, Subject, Grade, Exam
 from django.http import Http404
 
@@ -27,6 +28,35 @@ class TimetableView(ListView):
 
 
 # ================== الصفحات التي تحتاج تسجيل دخول ==================
+class LessonDetailView(LoginRequiredMixin, DetailView):
+    """عرض تفاصيل الدرس مع التحقق من روابط الفيديو"""
+    model = Lesson
+    template_name = 'academics/lesson_detail.html'
+    context_object_name = 'lesson'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        lesson = self.get_object()
+        
+        # Collect all video URLs (you might have multiple videos per lesson)
+        video_urls = []
+        if lesson.video_url:
+            video_urls.append(lesson.video_url)
+            
+        # Validate and clean video URLs
+        if video_urls:
+            cleaned_urls, errors = validate_youtube_urls(video_urls)
+            
+            # Add cleaned URLs to context
+            context['video_urls'] = cleaned_urls
+            
+            # If there were any errors, add them as messages
+            for url, error in errors.items():
+                messages.warning(self.request, f'Invalid video URL ({url}): {error}')
+        
+        return context
+
+
 class ExamListView(LoginRequiredMixin, ListView):
     """عرض قائمة الامتحانات"""
     model = Exam
@@ -399,3 +429,61 @@ def timetable_view(request):
         "slots": slots,
     }
     return render(request, "academics/timetable.html", context)
+
+
+# روابط الفيديوهات لكل درس
+# روابط الفيديوهات لكل درس
+LESSON_VIDEOS = {
+    "الدرس الأول: نظام خطية و تربيعية": [
+        "https://www.youtube.com/embed/01zNKLvdGsw",
+    ],
+    "الدرس الثاني: نظام معادلتين تربيعيتين": [
+        "https://www.youtube.com/embed/dIX6577H8-M",
+        "https://www.youtube.com/embed/_MpRYE7EfHE",
+        "https://www.youtube.com/embed/3rgQAiqW934",
+    ],
+    "الدرس الثالث: تبسيط المقادير الأسية": [
+        # ضع رابط صالح هنا إذا كان متاحًا
+    ],
+    "الدرس الرابع: حل المعادلة الأسية": [
+        # ضع رابط صالح هنا إذا كان متاحًا
+    ],
+}
+
+def lesson_video_view(request, grade_number, subject_name, lesson_number):
+    """
+    عرض صفحة فيديو الدرس للصف العاشر والرياضيات فقط.
+    يحول روابط الفيديوهات تلقائيًا لنمط YouTube nocookie.
+    """
+    # السماح فقط للصف العاشر والرياضيات
+    if subject_name != "الرياضيات" or grade_number != 10:
+        raise Http404("هذا الدرس غير متاح")
+
+    # قائمة الدروس بالترتيب
+    curriculum_lessons = [
+        "الدرس الأول: نظام خطية و تربيعية",
+        "الدرس الثاني: نظام معادلتين تربيعيتين",
+        "الدرس الثالث: تبسيط المقادير الأسية",
+        "الدرس الرابع: حل المعادلة الأسية",
+    ]
+
+    # جلب عنوان الدرس
+    try:
+        lesson_title = curriculum_lessons[lesson_number - 1]
+    except IndexError:
+        raise Http404("الدرس غير موجود")
+
+    # جلب الفيديوهات وتحويلها لنمط nocookie
+    videos = LESSON_VIDEOS.get(lesson_title, [])
+    safe_videos = [v.replace("youtube.com/embed", "youtube-nocookie.com/embed") for v in videos if v]
+
+    context = {
+        "grade_number": grade_number,
+        "subject_name": subject_name,
+        "lesson": {
+            "title": lesson_title,
+            "videos": safe_videos,
+        },
+    }
+
+    return render(request, "academics/lesson_video.html", context)
