@@ -8,6 +8,7 @@ from .models import User, Student, Teacher, Manager, GradeLevel
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     list_display = ('username', 'email', 'get_full_name', 'role', 'national_id', 'is_active')
+    list_editable = ('role',)  # <-- هذا يسمح بتغيير الدور مباشرة من القائمة
     list_filter = ('role', 'is_staff', 'is_superuser', 'is_active')
     search_fields = ('username', 'email', 'national_id', 'first_name', 'last_name')
     ordering = ('username',)

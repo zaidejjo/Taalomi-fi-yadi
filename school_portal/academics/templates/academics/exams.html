@@ -8,7 +8,7 @@
 
     {% if user.is_staff or user.role == 'teacher' %}
         <div class="mb-4">
-            <a href="{% url 'exams:add_exam' %}" class="btn btn-success rounded-pill shadow-sm">➕ إضافة امتحان جديد</a>
+            <a href="{% url 'academics:add_exam' %}" class="btn btn-success rounded-pill shadow-sm">➕ إضافة امتحان جديد</a>
         </div>
     {% endif %}
 
