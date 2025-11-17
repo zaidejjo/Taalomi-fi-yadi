@@ -57,7 +57,7 @@ class LessonDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ExamListView(LoginRequiredMixin, ListView):
+class ExamListView(ListView):
     """عرض قائمة الامتحانات"""
     model = Exam
     template_name = 'academics/exams.html'
