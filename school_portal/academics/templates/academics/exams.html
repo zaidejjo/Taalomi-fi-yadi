@@ -6,46 +6,155 @@
 <div class="container py-4" dir="rtl" lang="ar">
     <h2 class="text-primary fw-bold mb-4">📝 قائمة الامتحانات</h2>
 
-
-    <img src="" alt="">
-    {% if exams %}
-        <div class="list-group">
-            {% for exam in exams %}
-            <div id="exam-{{ exam.id }}" class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded-3 p-3">
-                <div>
-                    <h5 class="mb-1 fw-bold">{{ exam.title }}</h5>
-                    <small class="text-muted">تاريخ الامتحان: {{ exam.date|date:"d-m-Y" }}</small>
-                    {% if exam.description %}
-                        <p class="mb-0 text-secondary">{{ exam.description }}</p>
-                    {% endif %}
-                </div>
-
-                <div class="text-end">
-                    {% if user.is_staff or user.role == 'teacher' %}
-                        <div class="d-flex gap-2 justify-content-end">
-                            <a href="{% url 'exams:edit_exam' exam.id %}" class="btn btn-sm btn-outline-primary">✏ تعديل</a>
-                            <form action="{% url 'exams:delete_exam' exam.id %}" method="post" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-outline-danger">🗑 حذف</button>
-                            </form>
-                        </div>
-                    {% else %}
-                        {% if exam.is_active %}
-                            <a href="{% url 'exams:take_exam' exam.id %}" class="btn btn-sm btn-outline-success mt-2">📝 تقديم الامتحان</a>
-                        {% else %}
-                            <span class="badge bg-secondary mt-2">غير متاح</span>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="alert alert-info rounded-3 shadow-sm">
-            لا توجد امتحانات مسجلة حاليًا.
+    {% if user.is_staff or user.role == 'teacher' %}
+        <div class="mb-4">
+            <a href="{% url 'exams:add_exam' %}" class="btn btn-success rounded-pill shadow-sm">➕ إضافة امتحان جديد</a>
         </div>
     {% endif %}
 
+    <!-- صور جدول الامتحانات -->
+    <div class="mb-4">
+        <h5 class="fw-bold">📅 جدول الامتحانات الشهرية</h5>
+        <div class="row g-4">
+            <!-- الفصل الأول -->
+            <div class="col-md-4 col-6 text-center">
+                <h6 class="fw-bold mb-2">امتحان الشهر الأول</h6>
+                <a href="{% static 'images/exam_1.png' %}" data-bs-toggle="modal" data-bs-target="#imageModal" data-img="{% static 'images/exam_1.png' %}">
+                    <img src="{% static 'images/exam_1.png' %}" class="exam-schedule-img rounded shadow-sm" alt="جدول الشهر الأول">
+                </a>
+            </div>
+
+            <!-- الفصل الثاني -->
+            <div class="col-md-4 col-6 text-center">
+                <h6 class="fw-bold mb-2">امتحان الشهر الثاني</h6>
+                <a href="{% static 'images/exam_2.png' %}" data-bs-toggle="modal" data-bs-target="#imageModal" data-img="{% static 'images/exam_2.png' %}">
+                    <img src="{% static 'images/exam_2.png' %}" class="exam-schedule-img rounded shadow-sm" alt="جدول الشهر الثاني">
+                </a>
+            </div>
+
+            <!-- الفصل الثالث / إضافي -->
+            <div class="col-md-4 col-6 text-center">
+                <h6 class="fw-bold mb-2">امتحان الشهر الثالث</h6>
+                <a href="{% static 'images/exam_schedule_month3.png' %}" data-bs-toggle="modal" data-bs-target="#imageModal" data-img="{% static 'images/exam_schedule_month3.png' %}">
+                    <img src="{% static 'images/exam_schedule_month3.png' %}" class="exam-schedule-img rounded shadow-sm" alt="جدول الشهر الثالث">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs للفصول الدراسية -->
+    <ul class="nav nav-tabs mb-3" id="examTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="first-semester-tab" data-bs-toggle="tab" data-bs-target="#first-semester" type="button" role="tab">الفصل الأول</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="second-semester-tab" data-bs-toggle="tab" data-bs-target="#second-semester" type="button" role="tab">الفصل الثاني</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="examTabsContent">
+        <!-- الفصل الأول -->
+        <div class="tab-pane fade show active" id="first-semester" role="tabpanel">
+            {% for exam in exams_first %}
+                <div id="exam-{{ exam.id }}" class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded-3 p-3">
+                    <div>
+                        <h5 class="mb-1 fw-bold">{{ exam.title }}</h5>
+                        <small class="text-muted">تاريخ الامتحان: {{ exam.date|date:"d-m-Y" }}</small>
+                        {% if exam.description %}
+                            <p class="mb-0 text-secondary">{{ exam.description }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="text-end">
+                        {% if user.is_staff or user.role == 'teacher' %}
+                            <div class="d-flex gap-2 justify-content-end">
+                                <a href="{% url 'exams:edit_exam' exam.id %}" class="btn btn-sm btn-outline-primary">✏ تعديل</a>
+                                <form action="{% url 'exams:delete_exam' exam.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">🗑 حذف</button>
+                                </form>
+                            </div>
+                        {% else %}
+                            {% if exam.is_active %}
+                                <a href="{% url 'exams:take_exam' exam.id %}" class="btn btn-sm btn-outline-success mt-2">📝 تقديم الامتحان</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- الفصل الثاني -->
+        <div class="tab-pane fade" id="second-semester" role="tabpanel">
+            {% for exam in exams_second %}
+                <div id="exam-{{ exam.id }}" class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded-3 p-3">
+                    <div>
+                        <h5 class="mb-1 fw-bold">{{ exam.title }}</h5>
+                        <small class="text-muted">تاريخ الامتحان: {{ exam.date|date:"d-m-Y" }}</small>
+                        {% if exam.description %}
+                            <p class="mb-0 text-secondary">{{ exam.description }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="text-end">
+                        {% if user.is_staff or user.role == 'teacher' %}
+                            <div class="d-flex gap-2 justify-content-end">
+                                <a href="{% url 'exams:edit_exam' exam.id %}" class="btn btn-sm btn-outline-primary">✏ تعديل</a>
+                                <form action="{% url 'exams:delete_exam' exam.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">🗑 حذف</button>
+                                </form>
+                            </div>
+                        {% else %}
+                            {% if exam.is_active %}
+                                <a href="{% url 'exams:take_exam' exam.id %}" class="btn btn-sm btn-outline-success mt-2">📝 تقديم الامتحان</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <a href="{% url 'core:home' %}" class="btn btn-secondary mt-4 rounded-pill shadow-sm">العودة للأكاديمات ➡</a>
 </div>
+
+<!-- مودال لتكبير الصور -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content bg-transparent border-0">
+      <div class="modal-body p-0">
+        <img src="" id="modalImg" class="img-fluid rounded" alt="تكبير الصورة">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CSS للصور -->
+<style>
+.exam-schedule-img {
+    width: 100%;
+    height: 250px; /* أعلى جودة وأكبر حجم للوضوح */
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 3px solid #0d6efd;
+    border-radius: 10px;
+}
+.exam-schedule-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(13, 110, 253, 0.5);
+}
+</style>
+
+<!-- سكربت المودال -->
+<script>
+const imageModal = document.getElementById('imageModal');
+const modalImg = document.getElementById('modalImg');
+
+imageModal.addEventListener('show.bs.modal', function (event) {
+    const link = event.relatedTarget;
+    const imgSrc = link.getAttribute('data-img');
+    modalImg.src = imgSrc;
+});
+</script>
+
 {% endblock %}
