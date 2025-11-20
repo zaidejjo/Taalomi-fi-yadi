@@ -5,6 +5,8 @@ from django.contrib.auth import views as auth_views
 from core.views import SignUpView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
     # لوحة الإدارة
@@ -31,6 +33,8 @@ urlpatterns = [
 
     # إعادة التوجيه للجذر
     path('', RedirectView.as_view(url='/core/', permanent=False)),
+    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+
 ]
 
 # دعم ملفات الوسائط أثناء التطوير

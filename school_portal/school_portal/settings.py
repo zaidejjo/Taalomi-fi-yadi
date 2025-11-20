@@ -116,3 +116,6 @@ CSRF_TRUSTED_ORIGINS = [
 
 # مفتاح API لـ Cohere
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]  # لو عندك مجلد static في جذر المشروع
