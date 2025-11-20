@@ -1,12 +1,29 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 from django.contrib.auth import views as auth_views
 from core.views import SignUpView
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
 
+# استيراد Sitemaps
+from django.contrib.sitemaps.views import sitemap
+from core.sitemaps import CoreSitemap
+from academics.sitemaps import AcademicsSitemap
+from assignments.sitemaps import AssignmentsSitemap
+from attendance.sitemaps import AttendanceSitemap
+from competitions.sitemaps import CompetitionsSitemap
+from ai_chat.sitemaps import AIChatSitemap
+
+# إعداد dictionary لكل sitemaps
+sitemaps = {
+    'core': CoreSitemap(),
+    'academics': AcademicsSitemap(),
+    'assignments': AssignmentsSitemap(),
+    'attendance': AttendanceSitemap(),
+    'competitions': CompetitionsSitemap(),
+    'ai_chat': AIChatSitemap(),
+}
 
 urlpatterns = [
     # لوحة الإدارة
@@ -31,10 +48,12 @@ urlpatterns = [
     path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirm'),
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
 
+    # Sitemap للـ Google
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django-sitemap'),
+
     # إعادة التوجيه للجذر
     path('', RedirectView.as_view(url='/core/', permanent=False)),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
-
 ]
 
 # دعم ملفات الوسائط أثناء التطوير
