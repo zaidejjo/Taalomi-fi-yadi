@@ -6,7 +6,7 @@ class AIChatSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return ['chat_home', 'chat_ai']  # أسماء الـ views فقط
+        return ['chat_home']  # الاسم مطابق لـ urls.py
 
     def location(self, item):
-        return reverse(f'ai_chat:{item}')  # استخدام namespace
+        return reverse(f'ai_chat:{item}')  # namespace صح

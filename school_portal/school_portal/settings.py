@@ -1,4 +1,5 @@
 from pathlib import Path
+from pickle import FALSE
 from dotenv import load_dotenv
 import dj_database_url
 import os
@@ -10,9 +11,15 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # الأمان
-SECRET_KEY = 'django-insecure-...'  # غيّرها لمفتاحك الحقيقي
-DEBUG = True
+SECRET_KEY = os.getenv("SECRET_KEY")  # غيّرها لمفتاحك الحقيقي
+DEBUG = FALSE
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ta3lemi-fi-yadi.onrender.com', '.onrender.com']
+
+SECURE_HSTS_SECONDS = 31536000
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 
 # التطبيقات المثبتة
 INSTALLED_APPS = [
@@ -117,5 +124,3 @@ CSRF_TRUSTED_ORIGINS = [
 # مفتاح API لـ Cohere
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]  # لو عندك مجلد static في جذر المشروع
