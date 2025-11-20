@@ -10,9 +10,12 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # الأمان
-SECRET_KEY = os.getenv("SECRET_KEY")
+    # os.getenv("DEBUG", "False") == "True"
 DEBUG = True
-# os.getenv("DEBUG", "False") == "True"
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+if not SECRET_KEY:
+    raise ValueError("The SECRET_KEY setting must not be empty!")
 
 ALLOWED_HOSTS = ['*']
 #     "ta3lemi-fi-yadi.onrender.com",     "www.ta3lemi-fi-yadi.onrender.com",
