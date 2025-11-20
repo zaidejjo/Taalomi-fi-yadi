@@ -48,7 +48,7 @@ urlpatterns = [
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
 
     # Sitemap
-    path('sitemap.xml', RedirectView.as_view(url='/static/sitemap.xml')),
+    path("sitemap.xml", TemplateView.as_view(template_name="sitemap.xml", content_type="application/xml"), name="django-sitemap"),
 
     # Robots
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
