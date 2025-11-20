@@ -1,5 +1,4 @@
 from pathlib import Path
-from pickle import FALSE
 from dotenv import load_dotenv
 import dj_database_url
 import os
@@ -11,15 +10,25 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # الأمان
-SECRET_KEY = os.getenv("SECRET_KEY")  # غيّرها لمفتاحك الحقيقي
-DEBUG = FALSE
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ta3lemi-fi-yadi.onrender.com', '.onrender.com']
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG", "False") == "True"  # لتبديل الوضع بسهولة
 
-SECURE_HSTS_SECONDS = 31536000
+ALLOWED_HOSTS = [
+    "ta3lemi-fi-yadi.onrender.com",
+    "www.ta3lemi-fi-yadi.onrender.com",
+]
+
+# HTTPS & Security
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+CSRF_TRUSTED_ORIGINS = ["https://ta3lemi-fi-yadi.onrender.com"]
 
 # التطبيقات المثبتة
 INSTALLED_APPS = [
@@ -30,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
-    # تطبيقاتك الخاصة
+    # تطبيقات المشروع
     'core',
     'academics',
     'attendance',
@@ -52,7 +61,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# ملفات القوالب
 ROOT_URLCONF = 'school_portal.urls'
 
 TEMPLATES = [
@@ -74,7 +82,7 @@ WSGI_APPLICATION = 'school_portal.wsgi.application'
 
 # قاعدة البيانات
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'), conn_max_age=600, ssl_require=True)
 }
 
 # Validators لكلمات المرور
@@ -93,8 +101,8 @@ USE_TZ = True
 
 # ملفات static و media
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -110,17 +118,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'taalomifiyadi@gmail.com'
-EMAIL_HOST_PASSWORD = 'lldj gobi dorn zfhr'  # كلمة مرور التطبيق
-DEFAULT_FROM_EMAIL = 'تعلمي في يدي <taalomifiyadi@gmail.com>'
+EMAIL_HOST_USER = os.getenv('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
+DEFAULT_FROM_EMAIL = f"تعلمي في يدي <{EMAIL_HOST_USER}>"
 
-# Trusted origins
-CSRF_TRUSTED_ORIGINS = [
-    "https://ta3lemi-fi-yadi.onrender.com",
-    "http://ta3lemi-fi-yadi.onrender.com",
-]
-
-
-# مفتاح API لـ Cohere
+# Cohere API Key
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
-
