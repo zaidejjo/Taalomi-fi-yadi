@@ -6,8 +6,7 @@ class CoreSitemap(Sitemap):
     priority = 0.8
 
     def items(self):
-        # ضع أسماء URL patterns الرئيسية في core/urls.py
-        return ['core:home']  # غيّر 'home' باسم view الرئيسية
+        return ['core:home']  # الاسم مطابق للـ view الرئيسية
 
     def location(self, item):
         return reverse(item)

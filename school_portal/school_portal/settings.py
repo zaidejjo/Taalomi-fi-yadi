@@ -11,17 +11,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # الأمان
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG", "False") == "True"  # لتبديل الوضع بسهولة
+DEBUG = True
+# os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [
-    "ta3lemi-fi-yadi.onrender.com",
-    "www.ta3lemi-fi-yadi.onrender.com",
-]
+ALLOWED_HOSTS = ['*']
+#     "ta3lemi-fi-yadi.onrender.com",     "www.ta3lemi-fi-yadi.onrender.com",
 
 # HTTPS & Security
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True

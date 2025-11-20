@@ -6,7 +6,7 @@ from core.views import SignUpView
 from django.conf import settings
 from django.conf.urls.static import static
 
-# استيراد Sitemaps
+# Sitemaps
 from django.contrib.sitemaps.views import sitemap
 from core.sitemaps import CoreSitemap
 from academics.sitemaps import AcademicsSitemap
@@ -15,7 +15,6 @@ from attendance.sitemaps import AttendanceSitemap
 from competitions.sitemaps import CompetitionsSitemap
 from ai_chat.sitemaps import AIChatSitemap
 
-# إعداد dictionary لكل sitemaps
 sitemaps = {
     'core': CoreSitemap(),
     'academics': AcademicsSitemap(),
@@ -26,38 +25,37 @@ sitemaps = {
 }
 
 urlpatterns = [
-    # لوحة الإدارة
+    # Admin
     path('admin/', admin.site.urls),
 
-    # تطبيقات المشروع
+    # Apps
     path('core/', include('core.urls')),
     path('academics/', include('academics.urls')),
     path('attendance/', include('attendance.urls')),
     path('assignments/', include('assignments.urls')),
     path('competitions/', include('competitions.urls')),
-    path('chat/', include('ai_chat.urls')),
+    path('chat/', include(('ai_chat.urls', 'ai_chat'), namespace='ai_chat')),
 
-    # حسابات المستخدمين
+    # Accounts
     path('accounts/signup/', SignUpView.as_view(), name='signup'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='/core/'), name='logout'),
 
-    # إعادة تعيين كلمة المرور
+    # Password Reset
     path('accounts/password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset.html'), name='password_reset'),
     path('accounts/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'), name='password_reset_done'),
     path('accounts/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'), name='password_reset_confirm'),
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
 
-    # Sitemap للـ Google
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps, 'template_name': 'sitemap.xml'}, name='django-sitemap'),
+    # Sitemap
+    path('sitemap.xml', RedirectView.as_view(url='/static/sitemap.xml')),
 
-
-
-    # إعادة التوجيه للجذر
-    path('', RedirectView.as_view(url='/core/', permanent=False)),
+    # Robots
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+
+    # Home redirect
+    path('', RedirectView.as_view(url='/core/', permanent=False)),
 ]
 
-# دعم ملفات الوسائط أثناء التطوير
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

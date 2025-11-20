@@ -6,7 +6,7 @@ class AcademicsSitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        # ضع أسماء الـ URL patterns الرئيسية في academics/urls.py
+        # كل الـ URLs الرئيسية في التطبيق
         return ['academics:index', 'academics:subjects', 'academics:exams']
 
     def location(self, item):

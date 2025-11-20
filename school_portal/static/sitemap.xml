@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+   <!-- Core pages -->
+   <url>
+      <loc>http://127.0.0.1:8000/core/</loc>
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+   </url>
+
+   <!-- Academics pages -->
+   <url>
+      <loc>http://127.0.0.1:8000/academics/</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>http://127.0.0.1:8000/academics/subjects/</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>http://127.0.0.1:8000/academics/exams/</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+
+   <!-- Assignments pages -->
+   <url>
+      <loc>http://127.0.0.1:8000/assignments/</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+   </url>
+
+   <!-- Attendance pages -->
+   <url>
+      <loc>http://127.0.0.1:8000/attendance/</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.6</priority>
+   </url>
+
+   <!-- Competitions pages -->
+   <url>
+      <loc>http://127.0.0.1:8000/competitions/</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.6</priority>
+   </url>
+
+   <!-- Chat pages -->
+   <url>
+      <loc>http://127.0.0.1:8000/chat/</loc>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+   </url>
+
+</urlset>
