@@ -5,6 +5,9 @@ from django.contrib.auth import get_user_model
 from django import forms
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
+
 from .models import GradeLevel, Student, Teacher, Manager
 
 User = get_user_model()
@@ -144,3 +147,13 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('core:profile', kwargs={'user_id': self.object.id})
+
+# ===========================
+# إعادة تعيين كلمة المرور
+# ===========================
+class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
+    template_name = "core/password_reset.html"  # قالب الفورم الاحترافي
+    email_template_name = "core/password_reset_email.html"  # قالب الإيميل
+    subject_template_name = "core/password_reset_subject.txt"  # موضوع الإيميل
+    success_url = reverse_lazy("login")  # بعد إرسال الرابط يعيد لتسجيل الدخول
+    success_message = "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني إذا كان موجوداً."

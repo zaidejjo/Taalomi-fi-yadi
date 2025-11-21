@@ -6,96 +6,184 @@
 {% block title %}تسجيل حساب جديد - تعلمي في يدي{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center" dir="rtl" lang="ar">
-    <div class="col-md-6 col-sm-10">
-        <div class="card shadow-lg mt-5 border-0 rounded-4" style="background-color: var(--card-bg); color: var(--text-color);">
-            <div class="card-header text-center rounded-top-4" style="background: linear-gradient(135deg, #007bff, #00b4d8); color: #fff;">
-                <img src="{% static 'images/for_tabe-removebg.png' %}" alt="شعار الموقع" width="60" class="mb-2"/>
-                <h4 class="mb-0 fw-bold">إنشاء حساب جديد</h4>
-            </div>
-            <div class="card-body p-4">
-                {% if form.errors %}
-                <div class="alert alert-danger rounded-3 shadow-sm">
-                    ⚠️ تأكد من إدخال جميع الحقول بشكل صحيح.
+<div class="container py-5" dir="rtl" lang="ar">
+    <div class="row justify-content-center">
+        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10">
+            <div class="card shadow-lg rounded-4 overflow-hidden animate__animated animate__fadeInUp animate__fast"
+                 style="box-shadow: 0 10px 30px rgba(0, 123, 255, 0.5);">
+
+                <!-- Header -->
+                <div class="card-header text-center p-4"
+                     style="background: linear-gradient(135deg, #007bff, #00b4d8); color: #fff;">
+                    <img src="{% static 'images/for_tabe-removebg.png' %}" alt="شعار الموقع"
+                         width="70" class="mb-2 animate__animated animate__zoomIn animate__delay-1s"/>
+                    <h3 class="fw-bold mb-0 animate__animated animate__fadeInDown animate__delay-2s">إنشاء حساب جديد</h3>
+                    <p class="small mt-1 opacity-75 animate__animated animate__fadeInDown animate__delay-3s">أدخل بياناتك لبدء تجربتك معنا</p>
                 </div>
-                {% endif %}
 
-                <form method="post" class="mt-3">
-                    {% csrf_token %}
+                <!-- Body -->
+                <div class="card-body p-4">
+                    {% if form.errors %}
+                    <div class="alert alert-danger rounded-3 shadow-sm animate__animated animate__shakeX">
+                        ⚠️ يرجى التأكد من إدخال جميع الحقول بشكل صحيح.
+                    </div>
+                    {% endif %}
 
-                    <!-- الرقم الوطني -->
-                    <div class="mb-3">
-                        <label for="id_username" class="form-label fw-semibold">الرقم الوطني</label>
-                        {{ form.username|add_class:"form-control form-control-lg shadow-sm" }}
-                    </div>
+                    <form method="post" class="mt-3 needs-validation" novalidate>
+                        {% csrf_token %}
 
-                    <!-- البريد الإلكتروني -->
-                    <div class="mb-3">
-                        <label for="id_email" class="form-label fw-semibold">البريد الإلكتروني</label>
-                        {{ form.email|add_class:"form-control form-control-lg shadow-sm" }}
-                    </div>
-
-                    <!-- الأسماء -->
-                    <div class="mb-3">
-                        <label for="id_first_name" class="form-label fw-semibold">الاسم الأول</label>
-                        {{ form.first_name|add_class:"form-control form-control-lg shadow-sm" }}
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_second_name" class="form-label fw-semibold">الاسم الثاني</label>
-                        {{ form.second_name|add_class:"form-control form-control-lg shadow-sm" }}
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_third_name" class="form-label fw-semibold">الاسم الثالث</label>
-                        {{ form.third_name|add_class:"form-control form-control-lg shadow-sm" }}
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_fourth_name" class="form-label fw-semibold">اسم العائلة</label>
-                        {{ form.fourth_name|add_class:"form-control form-control-lg shadow-sm" }}
-                    </div>
-
-                    <!-- كلمة المرور -->
-                    <div class="mb-3">
-                        <label for="id_password1" class="form-label fw-semibold">كلمة المرور</label>
-                        {{ form.password1|add_class:"form-control form-control-lg shadow-sm" }}
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_password2" class="form-label fw-semibold">تأكيد كلمة المرور</label>
-                        {{ form.password2|add_class:"form-control form-control-lg shadow-sm" }}
-                    </div>
-
-                    <!-- الدور -->
-                    <div class="mb-3">
-                        <label for="id_role" class="form-label fw-semibold">اختر الدور</label>
-                        {{ form.role|add_class:"form-select form-select-lg shadow-sm" }}
-                    </div>
-
-                    <!-- الصف والشعبة للطلاب -->
-                    <div id="student-fields" style="display: none;">
-                        <div class="mb-3">
-                            <label for="id_grade" class="form-label fw-semibold">الصف</label>
-                            {{ form.grade|add_class:"form-select form-select-lg shadow-sm" }}
+                        <!-- الرقم الوطني -->
+                        <div class="mb-3 animate__animated animate__fadeInLeft animate__delay-1s">
+                            <label for="id_username" class="form-label fw-semibold">الرقم الوطني</label>
+                            {{ form.username|add_class:"form-control form-control-lg shadow-sm rounded-3" }}
                         </div>
-                        <div class="mb-3">
-                            <label for="id_section" class="form-label fw-semibold">الشعبة</label>
-                            {{ form.section|add_class:"form-control form-control-lg shadow-sm" }}
+
+                        <!-- البريد الإلكتروني -->
+                        <div class="mb-3 animate__animated animate__fadeInLeft animate__delay-2s">
+                            <label for="id_email" class="form-label fw-semibold">البريد الإلكتروني</label>
+                            {{ form.email|add_class:"form-control form-control-lg shadow-sm rounded-3" }}
                         </div>
+
+                        <!-- الأسماء -->
+                        <div class="row animate__animated animate__fadeInUp animate__delay-3s">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_first_name" class="form-label fw-semibold">الاسم الأول</label>
+                                {{ form.first_name|add_class:"form-control form-control-lg shadow-sm rounded-3" }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="id_second_name" class="form-label fw-semibold">الاسم الثاني</label>
+                                {{ form.second_name|add_class:"form-control form-control-lg shadow-sm rounded-3" }}
+                            </div>
+                        </div>
+                        <div class="row animate__animated animate__fadeInUp animate__delay-4s">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_third_name" class="form-label fw-semibold">الاسم الثالث</label>
+                                {{ form.third_name|add_class:"form-control form-control-lg shadow-sm rounded-3" }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="id_fourth_name" class="form-label fw-semibold">اسم العائلة</label>
+                                {{ form.fourth_name|add_class:"form-control form-control-lg shadow-sm rounded-3" }}
+                            </div>
+                        </div>
+
+                        <!-- كلمة المرور -->
+                        <div class="mb-3 animate__animated animate__fadeInRight animate__delay-5s">
+                            <label for="id_password1" class="form-label fw-semibold">كلمة المرور</label>
+                            {{ form.password1|add_class:"form-control form-control-lg shadow-sm rounded-3" }}
+                        </div>
+                        <div class="mb-3 animate__animated animate__fadeInRight animate__delay-6s">
+                            <label for="id_password2" class="form-label fw-semibold">تأكيد كلمة المرور</label>
+                            {{ form.password2|add_class:"form-control form-control-lg shadow-sm rounded-3" }}
+                        </div>
+
+                        <!-- الدور -->
+                        <div class="mb-3 animate__animated animate__fadeInUp animate__delay-7s">
+                            <label for="id_role" class="form-label fw-semibold">اختر الدور</label>
+                            {{ form.role|add_class:"form-select form-select-lg shadow-sm rounded-3" }}
+                        </div>
+
+                        <!-- الصف والشعبة للطلاب -->
+                        <div id="student-fields" class="mt-3 animate__animated animate__fadeInUp" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_grade" class="form-label fw-semibold">الصف</label>
+                                    {{ form.grade|add_class:"form-select form-select-lg shadow-sm rounded-3" }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_section" class="form-label fw-semibold">الشعبة</label>
+                                    <select id="id_section" name="section" class="form-select form-select-lg shadow-sm rounded-3">
+                                        <option value="" selected disabled>اختر الشعبة</option>
+                                        <option value="أ">أ</option>
+                                        <option value="ب">ب</option>
+                                        <option value="ج">ج</option>
+                                        <option value="د">د</option>
+                                        <option value="هـ">هـ</option>
+                                        <option value="ز">ز</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill shadow-lg mt-3 animate__animated animate__pulse-hover">
+                            تسجيل الحساب
+                        </button>
+                    </form>
+
+                    <div class="mt-4 text-center small">
+                        لديك حساب؟ 
+                        <a href="{% url 'login' %}" class="text-decoration-none fw-semibold">تسجيل الدخول</a>
                     </div>
-
-                    <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill shadow-sm">
-                        تسجيل الحساب
-                    </button>
-                </form>
-
-                <div class="mt-4 text-center">
-                    <a href="{% url 'login' %}" class="text-decoration-none">لديك حساب؟ تسجيل الدخول</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Animate.css CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+    /* Input focus */
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 12px rgba(0, 123, 255, 0.6);
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Button hover + glow + press effect */
+    .btn-primary {
+        position: relative;
+        transition: all 0.3s ease-in-out;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        box-shadow: 0 0 15px rgba(0,123,255,0.7), 0 5px 15px rgba(0,123,255,0.4);
+        transform: translateY(-2px);
+    }
+    .btn-primary:active {
+        transform: scale(0.97);
+        box-shadow: 0 0 20px rgba(0,123,255,0.9) inset;
+    }
+
+    /* Hover pulse animation */
+    .animate__pulse-hover:hover {
+        animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    /* Card shadow */
+    .card {
+        transition: all 0.4s ease-in-out;
+    }
+    .card:hover {
+        box-shadow: 0 15px 40px rgba(0,123,255,0.5);
+        transform: translateY(-3px);
+    }
+
+    /* Dark theme */
+    [data-theme="dark"] .card {
+        background-color: #2c2c3a !important;
+        color: #f5f5f5;
+    }
+    [data-theme="dark"] .form-control, [data-theme="dark"] .form-select {
+        background-color: #3a3a4f; color: #f5f5f5; border-color: #555;
+    }
+    [data-theme="dark"] .form-control:focus, [data-theme="dark"] .form-select:focus {
+        border-color: #00b4d8;
+        box-shadow: 0 0 12px rgba(0, 180, 216, 0.6);
+    }
+
+    @media (max-width: 576px) {
+        .card { margin-top: 2rem !important; }
+        .card-header img { width: 50px; }
+    }
+</style>
+
 <script>
-    // إظهار الصف والشعبة إذا كان الدور طالب
     const roleSelect = document.getElementById('id_role');
     const studentFields = document.getElementById('student-fields');
 
@@ -105,21 +193,4 @@
 
     if (roleSelect.value === 'student') studentFields.style.display = 'block';
 </script>
-
-<style>
-    .form-control:focus, .form-select:focus {
-        border-color: #0056b3;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-    }
-    a:hover { text-decoration: underline; }
-    [data-theme="dark"] .card { background-color: #2c2c3a !important; color: #f5f5f5; }
-    [data-theme="dark"] .form-control, [data-theme="dark"] .form-select {
-        background-color: #3a3a4f; color: #f5f5f5; border-color: #555;
-    }
-    [data-theme="dark"] .form-control:focus, [data-theme="dark"] .form-select:focus {
-        border-color: #00b4d8;
-        box-shadow: 0 0 5px rgba(0, 180, 216, 0.3);
-    }
-    @media (max-width: 768px) { .card { margin-top: 3rem !important; } }
-</style>
 {% endblock %}
