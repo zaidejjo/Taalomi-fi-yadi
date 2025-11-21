@@ -1,0 +1,127 @@
+/* home.css */
+:root {
+  --card-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  --btn-color: #fff;
+  --btn-hover-color: rgba(255,255,255,0.9);
+}
+
+body.home-container {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* =========================
+   Welcome Section
+========================= */
+.welcome-section {
+  margin-bottom: 50px;
+}
+
+.welcome-section .highlight {
+  color: hsl(212, 82%, 24%);
+  font-weight: bold;
+}
+
+/* =========================
+   Cards Grid
+========================= */
+.cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+/* =========================
+   Legendary Card
+========================= */
+.card-legendary {
+  width: 240px;
+  height: 320px;
+  background: var(--card-gradient);
+  border-radius: 20px;
+  color: #fff;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  position: relative;
+}
+
+.card-legendary::before {
+  content: '';
+  position: absolute;
+  inset:0;
+  border-radius: 20px;
+  background: linear-gradient(0deg,rgba(255,255,255,0.15),transparent);
+  pointer-events: none;
+}
+
+.card-legendary:hover {
+  transform: rotateY(8deg) rotateX(8deg) scale(1.05);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.35);
+}
+
+/* Card Content */
+.card-content {
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 1rem;
+}
+
+/* =========================
+   Ripple Button
+========================= */
+.btn {
+  background-color: var(--btn-color);
+  color: #000;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--btn-hover-color);
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .cards-grid {
+    gap: 1rem;
+  }
+  .card-legendary {
+    width: 45%;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-legendary {
+    width: 90%;
+    margin: auto;
+  }
+}

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ta3lemi-fi-yadi.onrender.com/sitemap.xml
