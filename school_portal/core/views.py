@@ -1,3 +1,4 @@
+# core/views.py
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
@@ -74,7 +75,7 @@ class SignUpView(CreateView):
 # الصفحة الرئيسية
 # ===========================
 class HomeView(TemplateView):
-    template_name = 'core/home.html'
+    template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)

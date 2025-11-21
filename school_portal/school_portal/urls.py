@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import RedirectView, TemplateView
+from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
-from core.views import SignUpView
+from django.views.generic import RedirectView
+from core.views import HomeView, SignUpView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -28,6 +29,9 @@ urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
 
+    # الصفحة الرئيسية
+    path('', HomeView.as_view(), name='home'),
+
     # Apps
     path('core/', include('core.urls')),
     path('academics/', include('academics.urls')),
@@ -39,7 +43,7 @@ urlpatterns = [
     # Accounts
     path('accounts/signup/', SignUpView.as_view(), name='signup'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(next_page='/core/'), name='logout'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 
     # Password Reset
     path('accounts/password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset.html'), name='password_reset'),
@@ -48,14 +52,12 @@ urlpatterns = [
     path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
 
     # Sitemap
-    path("sitemap.xml", TemplateView.as_view(template_name="sitemap.xml", content_type="application/xml"), name="django-sitemap"),
+    path("sitemap.xml", sitemap, {'sitemaps': sitemaps}, name="django-sitemap"),
 
     # Robots
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
-
-    # Home redirect
-    path('', RedirectView.as_view(url='/core/', permanent=False)),
 ]
 
+# ملفات الميديا في الوضع التطويري
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
