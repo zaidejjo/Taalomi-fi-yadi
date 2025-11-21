@@ -126,3 +126,6 @@ DEFAULT_FROM_EMAIL = f"تعلمي في يدي <{EMAIL_HOST_USER}>"
 
 # Cohere API Key
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+
+# Cache Storage
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
