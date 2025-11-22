@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="google-site-verification" content="BgSuHCO2pBAGoxc8fSBgQ5320Xajs_QvVryLFUrDOE8" />
 
-
         <title>{% block title %}تعلمي في يدي{% endblock %}</title>
 
         <!-- Favicon -->
@@ -26,9 +25,8 @@
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-
-
     </head>
+
     <body>
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
@@ -56,6 +54,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                         <li class="nav-item">
                             <a
                                 class="nav-link d-flex align-items-center"
@@ -143,15 +142,17 @@
                                 🌙
                             </button>
                         </li>
+
                         {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a
                                 class="nav-link d-flex align-items-center"
                                 href="{% url 'core:profile' user.id %}"
-                                >الملف الشخصي
-                                <i class="fa-solid fa-user ms-1"></i
-                            ></a>
+                                >
+                                الملف الشخصي <i class="fa-solid fa-user ms-1"></i>
+                            </a>
                         </li>
+
                         <li class="nav-item">
                             <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
@@ -160,9 +161,7 @@
                                     class="btn btn-link nav-link p-0 m-0"
                                 >
                                     تسجيل الخروج
-                                    <i
-                                        class="fa-solid fa-right-from-bracket ms-1"
-                                    ></i>
+                                    <i class="fa-solid fa-right-from-bracket ms-1"></i>
                                 </button>
                             </form>
                         </li>
@@ -194,12 +193,6 @@
                 <p class="mb-1">
                     منصة تعلمي في يدي. جميع الحقوق محفوظة © 2025.
                 </p>
-                <!-- <p class="mb-1">
-                    فريق الإنشاء:
-                    <a href="https://www.instagram.com/zaidejjo/" class="fw-bold text-decoration-underline" >زيد علي عجو</a>,
-                    <a href="https://www.instagram.com/mohammadshboul179/" class="fw-bold text-decoration-underline" >محمد إياد الشبول</a>,
-                    <a href="https://www.instagram.com/wardatryadahmad/" class="fw-bold text-decoration-underline" >رياض أحمد الوردات</a>
-                </p> -->
                 <p>
                     للتواصل:
                     <a
