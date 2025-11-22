@@ -48,16 +48,6 @@
             <a href="{% url 'assignments:assignment_list' %}" class="btn btn-light">اذهب</a>
         </div>
 
-        <!-- المسابقات -->
-        <div class="section-card bg-gradient4">
-            <a href="{% url 'competitions:competition_list' %}">
-                <img src="{% static 'images/trophy.png' %}" alt="المسابقات" class="section-img">
-            </a>
-            <h4>المسابقات</h4>
-            <p>شارك في المسابقات المدرسية المميزة</p>
-            <a href="{% url 'competitions:competition_list' %}" class="btn btn-light">اذهب</a>
-        </div>
-
         <!-- المحادثة الذكية -->
         <div class="section-card bg-gradient5">
             <a href="{% url 'ai_chat:chat_home' %}">
@@ -66,6 +56,16 @@
             <h4>المحادثة الذكية</h4>
             <p>تحدث مع الذكاء الاصطناعي المساعد</p>
             <a href="{% url 'ai_chat:chat_home' %}" class="btn btn-light">اذهب</a>
+        </div>
+
+        <!-- المسابقات -->
+        <div class="section-card bg-gradient4">
+            <a href="{% url 'competitions:competition_list' %}">
+                <img src="{% static 'images/trophy.png' %}" alt="المسابقات" class="section-img">
+            </a>
+            <h4>المسابقات</h4>
+            <p>شارك في المسابقات المدرسية المميزة</p>
+            <a href="{% url 'competitions:competition_list' %}" class="btn btn-light">اذهب</a>
         </div>
     </section>
 </div>
